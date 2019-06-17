@@ -1,0 +1,14 @@
+{% for f in formats %}
+{{ f.0 }} = '{{ f.1 }}';
+{% endfor %}
+
+__translations = {{ translations|safe() }};
+
+function gettext(text) {
+    var value = __translations[text];
+    if (typeof(value) == 'undefined') {
+        return text;
+    } else {
+        return (typeof(value) == 'string') ? value : value[0];
+    }
+};

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block meta_description %}{% endblock %}" />
+    <title>{% block title %}{% endblock %} - {{ sitename() }}</title>
+    <link type="image/x-icon" href="{{ static('favicon.png') }}" rel="icon" />
+    <link type="text/css" href="{{ static('gutils/js/jquery/jquery-ui.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ static('gutils/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ static('gutils/js/magnific/magnific-popup.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ static('gutils/js/qtip/jquery.qtip.min.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ static('gutils/css/gutils.css') }}" rel="stylesheet" />
+
+    <script type="text/javascript" src="{{ static('gutils/js/jquery/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/jquery/jquery-migrate.js') }}"></script>
+    <script type="text/javascript" src="{{ url('gutils-locale-js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/jquery/jquery-ui.js') }}"></script>
+
+    <script type="text/javascript" src="{{ static('gutils/js/jquery/jquery.cookie.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/jquery/jquery.query.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/magnific/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/qtip/jquery.qtip.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/plugins.js') }}"></script>
+    <script type="text/javascript" src="{{ static('gutils/js/admin.js') }}"></script>
+
+    {% include 'gutils/head.html' %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+<header>
+    <div id="sidebar-open" class="sidebar-open"><span class="fa fa-bars"></span></div>
+    {% include "gutils/toolbar.html" %}
+</header>
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <a href="/">{{ domain() }}</a>
+    </div>
+    <div class="sidebar-user">
+        <span class="icon fa fa-user"></span>
+        <a href="{{ url('admin-user-edit', user.pk )}}">{{ user.short_name }}</a>
+        <a class="sidebar-user-logout" href="{{ url('admin-logout') }}" title="{{ _('Logout') }}"><span class="fa fa-sign-out"></span></a>
+    </div>
+    <div class="sidebar-menu">
+        {% include "gutils/main_menu.html" %}
+    </div>
+</div>
+<main>
+{% for message in messages %}
+<div class="message-{{ message.tags }}">
+    <span class="message-close" onclick="$(this).parent().remove();" title="{{ _('Close') }}"><span class="fa fa-close"></span></span>
+    {{ message|safe }}
+</div>
+{% endfor %}
+{% block before_main %}{% endblock %}
+{% block main %}{% endblock %}
+{% block after_main %}{% endblock %}
+</main>
+</body>
+</html>

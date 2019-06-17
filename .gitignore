@@ -1,0 +1,10 @@
+.svn
+*.rar
+*.zip
+*.7z
+*.pyc
+*.orig
+.vscode
+*.sublime-workspace
+*.sublime-project
+*.code-workspace

@@ -1,0 +1,14 @@
+{% extends "gutils/item_edit.html" %}
+
+{% block main %}
+<table>
+<tr>
+    <td valign="top">
+    {{ admin_form_show(form, save_on_top=view.save_on_top, enctype='multipart/form-data') }}
+    </td>
+    <td valign="top">
+    {% include "gutils/table_preview.html" %}
+    </td>
+</tr>
+</table>
+{% endblock %}

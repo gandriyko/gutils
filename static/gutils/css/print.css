@@ -1,0 +1,277 @@
+*{
+	padding:0;
+	margin:0;
+	font-size: 10pt;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1.2em;
+}
+
+html {
+	margin:0px;
+	padding:4px;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+a img {
+    border: none;
+}
+
+.gray {
+    color: #777;
+}
+h1 {
+    text-align: center;
+    font-size: 13pt;
+    padding: 4px 0;
+    color: #000;
+}
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 12pt;
+    padding: 2px 0 4px 0;
+    color: #000;
+}
+
+
+h3 {
+    text-align: center;
+    font-size: 11pt;
+    padding: 2px;
+    color: #000;
+}
+
+table {
+    border-collapse:collapse;
+}
+
+table th{
+    text-align: center;
+    background-color: #eee;
+    vertical-align: top;
+    padding: 2px;
+    border:1px solid #ccc;
+}
+
+table td{
+    border:1px solid #ccc;
+    padding:2px 4px;
+    vertical-align: top;
+}
+
+table tr.selected td{
+    vertical-align: top;
+    padding: 2px;
+    background-color: #cbcbcb;
+}
+
+.clear {
+	clear: both;
+}
+
+td.label {
+    padding: 10px;
+    page-break-inside:avoid;
+}
+
+tr.nb {
+    border: 0;
+}
+
+tr.nb td{
+    border: 0;
+}
+
+td.nbd{
+    border: 0;
+}
+
+td.box{
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 3px 9px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.2em;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    box-sizing: border-box;
+    color: #555;
+    background: #fafafa;
+    border: 1px solid #d9dadc;
+}
+
+.btn:hover,
+.btn:focus {
+    color: #333;
+    text-decoration: none;
+    background: #f4f4f4;
+}
+
+.btn-primary {
+    background: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: #286090;
+    border-color: #204d74;
+    color: #fff;
+}
+
+.btn-success {
+    background: #00a65a;
+    border-color: #008d4c;
+    color: #fff;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background: #008d4c;
+    border-color: #008d4c;
+    color: #fff;
+}
+
+.btn-danger {
+    background: #c00;
+    border-color: #c00;
+    color: #fff;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+    background: #b30000;
+    border-color: #b30000;
+    color: #fff;
+}
+
+.btn-disabled,
+.btn-disabled:hover {
+    cursor: default;
+    background-color: #f4f4f4;
+    border-color: #ddd;
+    color: #777;
+}
+
+
+.actions {
+    clear: both;
+	padding: 30px 0;
+	text-align: center;
+}
+
+.print-labels {
+	width: 900px;
+}
+
+.print-label {
+	float: left;
+	width: 285px;
+	height: 170px;
+	margin: 2px;
+	padding: 4px 4px 4px 4px;
+	border: 1px solid #000;
+	overflow: hidden;
+}
+
+.print-label *{
+    font-size: 15px;
+}
+
+.print-label .logo {
+    display: block;
+    margin: 0 auto;
+}
+
+
+.print-label h2 {
+    font-size: 16px;
+    line-height: 18px;
+    padding: 2px 0 2px 0;
+    margin: 0;
+}
+
+.print-label p {
+    text-align: center;
+}
+
+.small {
+	font-size: 9pt;
+}
+
+.page {
+    page-break-after: always;
+    page-break-inside: avoid;
+}
+
+.page-break {
+    page-break-after: always;
+}
+
+.nowrap {white-space: nowrap}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.empty-block {
+    padding: 10px 100px;    
+}
+
+@media screen {
+
+	body {
+		width: 800px;
+		padding: 0;
+		margin: 0 auto;
+	}
+	
+}
+
+@media print {
+
+	html {
+		margin:0px;
+		padding:0px;
+	}
+	
+	body {
+		padding: 0;
+		margin: 0;
+	}
+	
+	input, button, .btn {
+	    display: none;
+	}
+    
+    .actions {
+        display: none;
+    }
+
+    .page-break {
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+
+    .no-break {
+        page-break-inside: avoid;
+    }
+}

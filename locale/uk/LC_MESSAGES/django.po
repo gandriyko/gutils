@@ -1,0 +1,299 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gutils\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-12 12:18+0300\n"
+"PO-Revision-Date: 2017-12-15 15:36+0200\n"
+"Last-Translator: Andrew G\n"
+"Language-Team: AndrewG <LL@li.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Yes"
+msgstr "Так"
+
+msgid "No"
+msgstr "Ні"
+
+msgid "Details"
+msgstr ""
+
+msgid "original name"
+msgstr "оригінальна назва"
+
+msgid "random name"
+msgstr "випадкова назва"
+
+msgid "image"
+msgstr "зображення"
+
+msgid "Upload file"
+msgstr "Завантажити файл"
+
+#, python-format
+msgid "Item \"%s\" deleted."
+msgstr "Елемент \"%s\" видалено."
+
+#, python-format
+msgid "Impossible delete \"%s\". This element depended others."
+msgstr "Неможливо видалити \"%s\". Від цього елемента залежать інші."
+
+msgid "Import"
+msgstr "Імпорт"
+
+msgid "Upload"
+msgstr "Завантажити"
+
+msgid "Wrong file format."
+msgstr "Неправильний формат файлу."
+
+msgid "Error on uploading file."
+msgstr "Помилка завантаження файлу."
+
+msgid "None"
+msgstr "Нема"
+
+msgid "Location"
+msgstr "Місцезнаходження"
+
+msgid "Make sure that all fields are filled in correctly."
+msgstr "Переконайтеся, що всі поля заповнені."
+
+msgid "Item"
+msgstr "Елемент"
+
+#, python-format
+msgid "Edit %(model)s \"%(name)s\""
+msgstr "Редагування %(model)s \"%(name)s\""
+
+#, python-format
+msgid "New %s"
+msgstr "Створення %s:"
+
+msgid "Enter a number, or few separated by comma"
+msgstr "Введіть число, або кілька розділених комою"
+
+msgid "Date or time is empty!"
+msgstr "Пуста дата або час!"
+
+msgid "Enter the correct date and time"
+msgstr "Введіть правильну дату і час"
+
+#, python-format
+msgid "Incorrect file: %s"
+msgstr "Некоректний файл:%s"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "cache_tree_children was passed nodes in the wrong order!"
+msgstr "cache_tree_children було передано вузли в неправильному порядку!"
+
+#, python-format
+msgid "Row %(index)s: empty field \"%(key)s\"."
+msgstr "Рядок %(index)s: порожнє поле \"%(key)s\"."
+
+#, python-format
+msgid "Row %(index)s: check field \"%(key)s\"."
+msgstr "Рядок %(index)s: перевірте поле \"%(key)s\"."
+
+msgid "Close"
+msgstr "Закрити"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Additional settings"
+msgstr "Додаткові налаштування"
+
+msgid "#"
+msgstr "№"
+
+msgid "first"
+msgstr "перший"
+
+msgid "prev"
+msgstr "попередній"
+
+msgid "next"
+msgstr "наступний"
+
+msgid "last"
+msgstr "останній"
+
+msgid "Logout"
+msgstr "Вихід"
+
+msgid "Folder"
+msgstr "Папка"
+
+msgid "Create folder"
+msgstr "Створити папку"
+
+msgid "Delete folder"
+msgstr "Вилучити папку"
+
+msgid "Delete image"
+msgstr "Вилучити зображення"
+
+msgid "title"
+msgstr "заголовок"
+
+msgid "size"
+msgstr "розмір"
+
+msgid "original size"
+msgstr "оригінальний розмір"
+
+msgid "keep aspect ratio"
+msgstr "зберігати пропорції"
+
+msgid "zoom"
+msgstr "масштабування"
+
+msgid "align"
+msgstr "вирівнювання"
+
+msgid "none"
+msgstr "нема"
+
+msgid "left"
+msgstr "ліворуч"
+
+msgid "right"
+msgstr "праворуч"
+
+msgid "Insert"
+msgstr "Вставити"
+
+msgid "Delete"
+msgstr "Вилучити"
+
+msgid "This element is connected with"
+msgstr "Цей елемент з'єднаний з"
+
+msgid "With this element did not connected"
+msgstr "З цим елементом нічого не пов'язано."
+
+msgid "Cancel"
+msgstr "Відмінити"
+
+msgid "Save"
+msgstr "Зберегти"
+
+msgid "Filter"
+msgstr "Фільтр"
+
+msgid "Advanced"
+msgstr "Додатково"
+
+msgid "Remove filter"
+msgstr "Вилучити фільтр"
+
+msgid "Summary"
+msgstr "Сумарно"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Print"
+msgstr "Друк"
+
+msgid "yes,no,---"
+msgstr "так,ні,---"
+
+msgid "Do not have permission to change"
+msgstr "Ви не маєте дозволу для редагування"
+
+msgid "Your account has been disabled. Contact the manager for activation."
+msgstr "Ваш обліковий запис заблоковано. Зверніться до менеджера для активації."
+
+#, python-format
+msgid "Field \"%s\" must be unique."
+msgstr "Поле \"%s\" має бути унікальне."
+
+msgid "This field is too short"
+msgstr "Це поле є занадто коротким"
+
+msgid "This field must contain only letters"
+msgstr "Це поле має містити лише букви"
+
+msgid "Incorrect phone"
+msgstr "Невірний телефон"
+
+msgid "Only numbers of Ukrainian operators are allowed"
+msgstr "Дозволені тільки номери українських операторів."
+
+msgid "Enter correct date of birth, or leave blank"
+msgstr "Введіть правильну дату народження, або Залиште пустим"
+
+msgid "Upload correct image"
+msgstr "Завантажте правильне зображення"
+
+#, python-format
+msgid "Editing \"%s\""
+msgstr "Редагування \"%s\""
+
+#, python-format
+msgid "Creating \"%(model_name)s\""
+msgstr "Створення \"%(model_name)s\""
+
+msgid "Items"
+msgstr "Елементи"
+
+#, python-format
+msgid "Invalid action \"%s\""
+msgstr "Неприпустимі дії \"%s\""
+
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Неправильна сторінка (%(page_number)s): %(message)s"
+
+#, python-format
+msgid "%s deleted."
+msgstr "%s видалено."
+
+msgid "You haven't permissions to delete items."
+msgstr "У вас немає дозволу на видалення елементів."
+
+#, python-format
+msgid "%s saved."
+msgstr "%s збережено."
+
+msgid "Select file"
+msgstr "Виберіть файл"
+
+msgid "--------"
+msgstr "--------"
+
+msgid "Select"
+msgstr "Вибрати"
+
+msgid "OK"
+msgstr "ОК"
+
+msgid "Select all"
+msgstr "Вибрати всі"
+
+#, python-brace-format
+msgid "Selected: {0}"
+msgstr "Вибрано: {0}"
+
+msgid "h."
+msgstr "г."
+
+msgid "min."
+msgstr "хв."
+
+msgid "Add Image"
+msgstr "Додати зображення"

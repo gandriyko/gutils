@@ -1,0 +1,11 @@
+<tr class="item" data-id="{{ item.id }}">
+    {% if view.have_checkbox -%}
+    <td class="check"><input type="checkbox" name="ids" value="{{ item.id }}" /></td>
+    {% endif -%}
+    {% for c in view.column_list -%}
+    <td class="col col-{{ c.get_style(item) }}"{% for a, v in c.get_attrs(item).items() %} {{ a }}="{{ v }}"{% endfor %}>{{ c.get_display(item)|safe }}</td>
+    {% endfor -%}
+    {% if view.allow_delete and view.delete_link -%}
+    <td>{{ item_delete(item) }}</td>
+    {% endif -%}
+</tr>

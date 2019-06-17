@@ -1,0 +1,29 @@
+{% extends base_template %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+{% if form %}{{ form.media|safe }}{% endif %}
+{% if formset %}{{ formset.media|safe }}{% endif %}
+{% endblock %}
+
+{% block before_main %}
+{% if view and view.tabs %}
+{% include view.tabs %}
+{% endif %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+</div>
+
+{% set link_list = view.get_list_link() %}
+{% if link_list %}
+<div class="table-actions">
+    {% for link in link_list %}
+        {{ link.display(view)|safe }}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block main %}
+{% endblock %}

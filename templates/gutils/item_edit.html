@@ -1,0 +1,42 @@
+{% extends base_template %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block head %}
+{% if form %}{{ form.media }}{% endif %}
+{% if formset %}{{ formset.media }}{% endif %}
+{% if view.css %}
+{% for css in view.css %}
+<link type="text/css" href="{{ static(css) }}" rel="stylesheet" />
+{% endfor %}
+{% endif %}
+{% if view.js %}
+{% for js in view.js %}
+<script type="text/javascript" src="{{ static(js) }}"></script>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block before_main %}
+{% if view and view.tabs %}
+{% include view.tabs %}
+{% endif %}
+
+<div class="page-header">
+    <h1>{{ title }}</h1>
+</div>
+
+{% set link_list = view.get_list_link() %}
+{% if link_list %}
+<div class="table-actions">
+    {% for link in link_list %}
+        {{ link.display(view)|safe }}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block main %}
+{{ admin_form_show(form, formset, enctype=view.enctype, formset_horizontal=view.formset_horizontal, formset_title=view.get_formset_title(), save_on_top=view.save_on_top, submit_text=view.submit_text or _('Save'), form_buttons=view.get_form_buttons(), form_details=view.get_form_details(), autocomplete=False) }}
+{% endblock %}

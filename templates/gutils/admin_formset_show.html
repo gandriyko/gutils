@@ -1,0 +1,99 @@
+{% if form_tag %}<form method="{{ method }}" action=""{% if not autocomplete %} autocomplete="off"{% endif %}{% if enctype %} enctype="{{ enctype }}"{% elif formset.is_multipart() %} enctype="multipart/form-data"{% endif %}>{% endif %}
+{% if not hide_csrf %}{% csrf_token %}{% endif %}
+
+{% if formset_horizontal %}
+
+{{ formset.management_form|safe }}
+{{ formset.non_form_errors() }}
+<table class="formset">
+    {% for frm in formset %}
+    {% if loop.first %}
+    <thead>
+        <tr>
+            <th>{{ _('#') }}</th>
+            {% for f in frm.visible_fields() %}
+            <th>{{ f.label }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% endif %}
+        <tr>
+            <td class="index">{{ loop.index }}{% for f in frm.hidden_fields() %}{{ f }}{% endfor %}</td>
+            {% for f in frm.visible_fields() %}
+            <td class="{{ f|field_class }}">{{ f }}{{ f.errors }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">{{ submit_text }}</button>
+    {% if form_buttons %}
+    {% for button in form_buttons %}
+    <button class="btn btn-primary" type="submit" name="{{ button.name }}" value="{{ button.value }}">{{ button.caption }}</button>
+    {% endfor %}
+    {% endif %}
+    {% if is_popup %}
+    {% if reload_when_close %}
+        <button class="btn" type="button" onclick="parent.location.reload();">{{ _('Close') }}</button>
+        {% else %}
+        <button class="btn btn-close-popup" type="button">{{ _('Close') }}</button>
+        {% endif %}
+    {% else%}
+    <button class="btn" type="button" onclick="history.back()">{{ _('Back') }}</button>
+    {% endif %}
+</div>
+
+{% else %}
+
+<table class="form">
+{% if save_on_top %}
+<tr>
+    <th></th>
+    <td class="form-actions">
+        <button class="btn btn-primary" type="submit">{{ submit_text }}</button>
+        {% if is_popup %}
+        <button class="btn btn-close-popup" type="button">{{ _('Close') }}</button>
+        {% else%}
+        <button class="btn" type="button" onclick="history.back()">{{ _('Back') }}</button>
+        {% endif %}
+    </td>
+</tr>
+{% endif %}
+<tr>
+    <th></th>
+    <td>{% if formset_title %}<h3>{{ formset_title }}</h3>{% endif %}
+        {{ formset.management_form|safe }}{{ formset.non_form_errors() }}
+    </td>
+</tr>
+{{ formset.as_table() }}
+<tr>
+    <th></th>
+    <td class="form-actions">
+        <button class="btn btn-primary" type="submit">{{ submit_text }}</button>
+        {% if form_buttons %}
+        {% for button in form_buttons %}
+            {% if button.url %}
+                <a class="btn btn-primary" href="{{ button.url }}">{{ button.caption }}</a>
+            {% else %} 
+               <button class="btn btn-primary" type="submit" name="{{ button.name }}" value="{{ button.value }}">{{ button.caption }}</button>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if is_popup %}
+            {% if reload_when_close %}
+            <button class="btn" type="button" onclick="parent.location.reload();">{{ _('Close') }}</button>
+            {% else %}
+            <button class="btn btn-close-popup" type="button">{{ _('Close') }}</button>
+            {% endif %}
+        {% else%}
+        <button class="btn" type="button" onclick="history.back()">{{ _('Back') }}</button>
+        {% endif %}
+    </td>
+</tr>
+</table>
+
+{% endif %}
+
+{% if form_tag %}</form>{% endif %}

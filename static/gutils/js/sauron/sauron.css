@@ -1,0 +1,11 @@
+.sauron {
+	position : absolute;
+	cursor : pointer;
+	display : block;
+	background-image : url('images/sauron.svg');
+	background-size : cover;
+}
+
+.sauron-show {
+	background-image : url('images/sauron_hover.svg');
+}

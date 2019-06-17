@@ -1,0 +1,22 @@
+{% if page %}
+<div class="pagination">
+    <form action="" method="get" onsubmit="document.location=jQuery.query.set('page', $('input', this).val()); return false;">
+    {% if page.has_previous() %}
+    <a class="btn" href="{{ page_url }}1" title="{{ _('first') }}"><span class="fa fa-angle-double-left"></span></a>
+    <a class="btn" href="{{ page_url }}{{ page.previous_page_number() }}" title="{{ _('prev') }}"><span class="fa fa-angle-left"></span></a>
+    {% else %}
+    <span class="btn btn-disabled"><span class="fa fa-angle-double-left"></span></span>
+    <span class="btn btn-disabled"><span class="fa fa-angle-left"></span></span>
+    {% endif %}
+    <input type="text" name="page" value="{{ page.number }}" size="3" onfocus="this.select()" {% if page.paginator.num_pages == 1 %} disabled="disabled" {% endif %}/>
+    <span class="count">{{ page.paginator.num_pages }} <small>({{ page.paginator.count }})</small></span>
+    {% if page.has_next() %}
+    <a class="btn" href="{{ page_url }}{{ page.next_page_number() }}" title="{{ _('next') }}"><span class="fa fa-angle-right"></span></a>
+    <a class="btn" href="{{ page_url }}{{ page.paginator.num_pages }}" title="{{ _('last') }}"><span class="fa fa-angle-double-right"></span></a>
+    {% else %}
+    <span class="btn btn-disabled"><span class="fa fa-angle-right"></span></span>
+    <span class="btn btn-disabled"><span class="fa fa-angle-double-right"></span></span>
+    {% endif %}
+   </form>
+</div>
+{% endif %}

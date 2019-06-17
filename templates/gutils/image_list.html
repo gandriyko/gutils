@@ -1,0 +1,83 @@
+{% extends "gutils/popup.html" %}
+
+{% block head %}
+<link type="text/css" href="{{ static('gutils/css/tiny-images.css') }}" rel="stylesheet"/>
+<script type="text/javascript" src="{{ static('gutils/js/tiny-images.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+<form class="image-tools" method="post" action="">
+    {% csrf_token %}
+    <select id="folder" title="{{ _('Folder') }}">
+        <option value="{{ url('admin-image-list') }}">/</option>
+        {% for f in folders %}
+        <option value="{{ url('admin-image-list') }}?folder={{ f }}"{% if f == folder %} selected="selected"{% endif %}>{{ f }}</option>
+        {% endfor %}
+    </select>
+    <button id="folder-create" class="btn" type="submit" name="create_folder" value="" title="{{ _('Create folder') }}"><i class="fa fa-folder-open"></i></button>
+    {% if folder %}
+    <button id="folder-delete" class="btn" type="submit" name="delete_folder" value="{{ folder }}" title="{{ _('Delete folder') }}"><i class="fa fa-remove"></i></button>
+    {% endif %}
+    <button id="image-delete" class="btn" style="display: none;" name="delete_image" value="" title="{{ _('Delete image') }}"><i class="fa fa-trash red"></i> {{ _('Delete image') }}</button>
+</form>
+<ul class="image-list">
+    {% for i in images %}
+    <li>
+        <span class="image" data-src="{{ MEDIA_URL }}{{ i.url }}" title="{{ i.name }}">
+            <img src="{{ i.url|thumb('75x75') }}" alt=""/>
+        </span>
+    </li>
+    {% endfor %}
+</ul>
+<div class="image-settings">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            {{ form.naming }}
+        </p>
+        {{ form.image.errors }}
+        <div class="image-file">{{ form.image }}</div>
+        <p>
+            <button id="image-upload" class="btn btn-success" type="submit">{{ _('Upload') }}</button>
+        </p>
+    </form>
+    <p>
+        <label>{{ _('title') }}</label>
+        <input id="image-caption" type="text" value="" maxlength="255"/>
+    </p>
+    <p>
+        <label>{{ _('size') }}</label>
+        <select id="image-size">
+            <option value="" selected="selected">{{ _('original size') }}</option>
+            <option value="150x150">150x150</option>
+            <option value="200x200">200x200</option>
+            <option value="250x250">250x250</option>
+            <option value="300x300">300x300</option>
+            <option value="400x400">400x400</option>
+        </select>
+    </p>
+    <p>
+        <input id="image-width" type="number" value="" size="3" min="0"/>
+        x
+        <input id="image-height" type="number" value="" size="3" min="0"/>
+    </p>
+    <p>
+        <label><input id="image-ratio" type="checkbox" checked="checked"/> {{ _('keep aspect ratio') }}</label>
+    </p>
+    <p>
+        <label><input id="image-zooming" type="checkbox" checked="checked"/> {{ _('zoom') }}</label>
+    </p>
+    <p>
+        <label>{{ _('align') }}</label>
+        <select id="image-align">
+            <option value="" selected="selected">{{ _('none') }}</option>
+            <option value="left">{{ _('left') }}</option>
+            <option value="right">{{ _('right') }}</option>
+        </select>
+    </p>
+    <p>
+        <button id="image-insert" class="btn btn-primary" type="button">{{ _('Insert') }}</button>
+    </p>
+</div>
+<a id="image-url" target="_blank" href="#"></a>
+{% endblock %}

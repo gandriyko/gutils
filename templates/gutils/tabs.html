@@ -1,0 +1,10 @@
+{% if view and not tabs %}{% set tabs = view.tabs %}{% endif %}
+{% if tabs %}
+<div class="tabs">
+    <ul>
+        {% for tab in tabs %}
+        <li{% if tab.active %} class="active"{% endif %}><a href="{{ tab.url }}">{{ tab.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

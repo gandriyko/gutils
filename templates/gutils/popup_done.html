@@ -1,0 +1,30 @@
+{% extends "gutils/popup.html" %}
+
+
+{% block head %}
+<script type="text/javascript">
+function closeWindow(){
+    {% if next %}
+    parent.location.href='{{ next }}';
+    {% else %}
+    parent.location.reload();
+    {% endif %}
+}
+{% if timeout %}
+    setTimeout(function() {
+        closeWindow()
+    }, {{ timeout }});
+{% else %}
+    closeWindow()
+{% endif %}
+</script>
+{% endblock %}
+
+{% block main %}
+{% if title %}<h2>{{ title }}</h2>{% endif %}
+{% if text %}<p>{{ text }}</p>{% endif %}
+<div class="popup-close">
+    <input type="button" class="btn" value="{{ _('Close') }}" onclick="closeWindow()" />
+</div>
+{% endblock %}
+

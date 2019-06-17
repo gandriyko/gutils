@@ -1,0 +1,39 @@
+{% extends base_template %}
+
+{% block title %}{{ _('Delete') }} "{{ object }}"?{% endblock %}
+
+{% block main %}
+<h1>{{ _('Delete') }} "{{ object }}"?</h1>
+<form method="post" action="">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}" />
+{% if items %}
+    <div class="callout callout-warning">
+        <p>{{ _('This element is connected with') }}</p>
+    </div>
+    <table class="table">
+    <tbody>
+    {% for i in items %}
+        <tr>
+            <th width="200">{{ i.name }}</th>
+            <td>{{ i.qty }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% else %}
+    <div class="callout callout-danger">
+        <p>{{ _('With this element did not connected') }}</p>
+    </div>
+{% endif %}
+
+<div class="form-actions">
+    <input type="submit" class="btn btn-danger" name="delete" value="{{ _('Delete') }}" />
+    {% if is_popup %}
+    <input type="button" class="btn btn-close-popup" value="{{ _('Cancel') }}"/>
+    {% else %}
+    <input type="button" class="btn" value="{{ _('Cancel') }}" onclick="history.back()"/>
+    {% endif %}
+</div>
+</form>
+{% endblock %}
