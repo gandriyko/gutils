@@ -82,6 +82,7 @@ def working_days(date_from, date_to):
 
 
 def add_working_days(date_from, days):
+    days = min(abs(days), 60)  # force limit
     if isinstance(date_from, datetime.datetime):
         date_to = date_from.date()
     else:
