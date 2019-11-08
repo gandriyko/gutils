@@ -47,7 +47,7 @@ def execute(command, *params):
     try:
         output = check_output(command, shell=True)
     except CalledProcessError as e:
-        return e.output
+        return force_text(e.output)
     return force_text(output, output_encoding)
 
 
