@@ -3,12 +3,9 @@ from __future__ import print_function
 from django.core.cache import caches
 from user_agent import generate_user_agent
 import requests
-import certifi
 import random
 import time
 import hashlib
-
-DEFAULT_CA_BUNDLE_PATH = certifi.old_where()
 
 
 def get_hash(value):
@@ -84,8 +81,7 @@ class Spider(object):
                                headers=self.get_headers(headers),
                                cookies=self.get_cookies(),
                                proxies=proxy,
-                               timeout=self.timeout,
-                               verify=DEFAULT_CA_BUNDLE_PATH)
+                               timeout=self.timeout)
                 self.response = response
                 if response.status_code != 200:
                     print('HTTP Status: %s' % response.status_code, url)
@@ -143,8 +139,7 @@ class Spider(object):
                                 cookies=self.get_cookies(),
                                 proxies=proxy,
                                 timeout=self.timeout,
-                                data=data,
-                                verify=DEFAULT_CA_BUNDLE_PATH)
+                                data=data)
                 self.response = response
                 if response.status_code != 200:
                     print('HTTP Status: %s' % response.status_code)

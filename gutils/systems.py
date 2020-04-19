@@ -23,8 +23,6 @@ try:
 except ImportError:
     from io import StringIO
 
-DEFAULT_CA_BUNDLE_PATH = certifi.old_where()
-
 class FTPNoFiles(Exception):
     pass
 
@@ -107,8 +105,8 @@ def smart_download(url, **kwargs):
     detect_extension = kwargs.get('detect_extension')
     if not url.startswith('ftp://'):
         if login_page:
-            client.get(login_page, timeout=timeout, headers=headers, verify=DEFAULT_CA_BUNDLE_PATH)
-            client.post(login_page, data=login_data, headers=headers, verify=DEFAULT_CA_BUNDLE_PATH)
+            client.get(login_page, timeout=timeout, headers=headers)
+            client.post(login_page, data=login_data, headers=headers)
         # catch redirect
         response = client.get(url, allow_redirects=False, timeout=timeout,
                               headers=headers, verify=DEFAULT_CA_BUNDLE_PATH)
@@ -116,7 +114,7 @@ def smart_download(url, **kwargs):
         if location:
             url = location
             result.ext = force_extension or os.path.splitext(re.sub(r'\?.+', '', url))[1]
-            response = client.get(url, timeout=timeout, headers=headers, verify=DEFAULT_CA_BUNDLE_PATH)
+            response = client.get(url, timeout=timeout, headers=headers)
         # detect extension
         if not url.startswith('ftp://') and detect_extension and not force_extension:
             result.content_type = response.headers.get('Content-Type', '')
