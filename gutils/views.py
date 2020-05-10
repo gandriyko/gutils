@@ -37,6 +37,7 @@ from gutils.strings import upper_first
 from gutils.users import is_superuser, is_user
 from gutils.shortcuts import get_referer, close_view
 from gutils.columns import Column
+from gutils.models import AdminViewConfModel
 from gutils.signals import pre_init_view, post_init_view
 
 import logging
@@ -554,6 +555,8 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
     empty_query = False
     column_list = []
     columns = {}
+    excluded_column_list = None
+    allow_select_columns = False
     tabs = None
     parent_model = None
     parent_queryset = None
@@ -581,9 +584,10 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
                     column.init(self, key)
                     column_list.append(column)
 
+        excluded_column_list = self.get_excluded_column_list()
         self_columns = {}
         for key, value in self.get_columns().items():
-            if isinstance(value, Column):
+            if isinstance(value, Column) and key not in excluded_column_list:
                 column = copy.deepcopy(value)
                 column.init(self, key)
                 column_list.append(column)
@@ -595,6 +599,22 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
 
     def get_columns(self):
         return self.columns
+
+    def get_column_list(self):
+        selected_column_list = self.get_selected_column_list()
+        if selected_column_list:
+            return [c for c in self.column_list if c.name in selected_column_list]
+        else:
+            return self.column_list
+
+    def get_excluded_column_list(self):
+        return self.excluded_column_list or []
+
+    def get_selected_column_list(self):
+        if self.allow_select_columns:
+            return AdminViewConfModel.get_user_selected_columns(self.request.user,
+                                                                self.request.url_name)
+        return []
 
     def add_column(self, name, column, after=None):
         column = copy.deepcopy(column)
@@ -963,6 +983,14 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             messages.info(self.request, _('%s deleted.') % total)
         else:
             messages.error(self.request, _('You haven\'t permissions to delete items.'))
+
+    def action_select_columns(self):
+        if self.allow_select_columns:
+            columns = set(self.columns.keys()) & set(self.request.POST.getlist('column'))
+            AdminViewConfModel.set_user_selected_columns(
+                user=self.request.user,
+                url_name=self.request.url_name,
+                columns=columns)
 
 
 class AdminDetailView(PermissionMixin, TitleMixin, ListLinkMixin, DetailView):

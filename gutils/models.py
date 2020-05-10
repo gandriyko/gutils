@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import capfirst
@@ -161,3 +162,36 @@ class ChangedModel(models.Model):
                     break
 
         super(ChangedModel, self).save(*args, **kwargs)
+
+
+class AdminViewConfModel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    url_name = models.CharField(max_length=64)
+    selected_columns = models.CharField(max_length=1024, null=True)
+
+    class Meta:
+        db_table = 'admin_view_conf'
+        unique_together = ('user', 'url_name')
+
+    def get_selected_columns(self):
+        if self.selected_columns:
+            return self.selected_columns.split(',')
+        else:
+            return []
+
+    @classmethod
+    def get_user_selected_columns(cls, user, url_name):
+        try:
+            return cls.objects.get(user=user, url_name=url_name).get_selected_columns()
+        except cls.DoesNotExist:
+            return []
+
+    @classmethod
+    def set_user_selected_columns(cls, user, url_name, columns):
+        cls.objects.update_or_create(
+            user=user,
+            url_name=url_name,
+            defaults={
+                'selected_columns': ','.join(columns) if columns else None
+            }
+        )

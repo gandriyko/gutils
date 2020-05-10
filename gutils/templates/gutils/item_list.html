@@ -58,6 +58,9 @@
             <button id="filter-advanced-toggle" class="btn" type="button" title="{{ _('Advanced') }}"><span class="fa fa-ellipsis-h"></span></button>
             {% endif %}
             <a class="btn" href="{{ path }}" title="{{ _('Remove filter') }}"><span class="fa fa-eraser"></span></a>
+            {% if view.allow_select_columns %}
+            <a class="btn modal-box" href="#select-columns-form" title="{{ _('Select columns') }}"><span class="fa fa-list"></span></a>
+            {% endif %}
         </div>
         <div class="clear"></div>
     </form>
@@ -133,6 +136,32 @@
     {% endif %}
     {% endif %}
 
+    {% if view.allow_select_columns %}
+    {% set selected_column_list=view.get_selected_column_list() %}
+    <div class="hidden">
+        <form id="select-columns-form" action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <h3>{{ _('Select columns') }}</h3>
+        <table class="form">
+            {% for column in view.column_list %}
+                <tr>
+                    <th><label>{{ column.verbose_name }}</label></th>
+                    <td><input type="checkbox" name="column" value="{{ column.name }}" autocomplete="off"
+                      {% if not selected_column_list or column.name in selected_column_list %}checked="checked"{% endif %}/></td>
+                </tr>
+            {% endfor %}
+            </tr>
+            <tr>
+                <th></th>
+                <td class="form-actions">
+                    <button class="btn btn-primary" type="submit" name="_action" value="select_columns">{{ _('Done') }}</button>
+                    <button class="btn" type="button" onclick="$.admin.popup.close();">{{ _('Close') }}</button>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+    {% endif %}
 
     {% if forms %}
     <div class="hidden">

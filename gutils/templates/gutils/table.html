@@ -1,9 +1,10 @@
+{% set column_list=view.get_column_list() %}
 <thead>
     <tr>
         {% if view.have_checkbox -%}
         <th class="check"><input type="checkbox"/></th>
         {% endif -%}
-        {% for c in view.column_list -%}
+        {% for c in column_list -%}
         <th class="col-{{ c.get_style() }}">{{ admin_table_sort(c.sort, c.header_name, c.verbose_name) }}</th>
         {% endfor -%}
         {% if view.allow_delete -%}
