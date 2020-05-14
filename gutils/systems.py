@@ -109,7 +109,7 @@ def smart_download(url, **kwargs):
             client.post(login_page, data=login_data, headers=headers)
         # catch redirect
         response = client.get(url, allow_redirects=False, timeout=timeout,
-                              headers=headers, verify=DEFAULT_CA_BUNDLE_PATH)
+                              headers=headers)
         location = response.headers.get('Location', '')
         if location:
             url = location
