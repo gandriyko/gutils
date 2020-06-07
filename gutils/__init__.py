@@ -152,6 +152,7 @@ def to_dict(obj, fields):
     if 'id' not in fields:
         _fields.append('id')
     for f in _fields:
+        f = f.replace('__', '.')
         if '.' in f:
             v = obj
             for f0 in f.split('.'):
