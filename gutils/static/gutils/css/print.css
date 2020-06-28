@@ -193,6 +193,7 @@ td.box{
 }
 
 .print-label .logo {
+    width: 285px;
     display: block;
     margin: 0 auto;
 }
