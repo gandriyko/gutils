@@ -150,7 +150,7 @@ def to_dict(obj, fields):
     result = {}
     _fields = list(fields)
     if 'id' not in fields:
-        _fields.append('id')
+        _fields.insert(0, 'id')
     for f in _fields:
         f = f.replace('__', '.')
         if '.' in f:
