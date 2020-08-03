@@ -168,7 +168,7 @@ def to_dict(obj, fields):
             v = formats.date_format(v, 'DATETIME_FORMAT', use_l10n=True)
         elif isinstance(v, datetime.date):
             v = formats.date_format(v, 'DATE_FORMAT', use_l10n=True)
-        if not isinstance(v, six.string_types) and not isinstance(v, bool):
+        if not isinstance(v, six.string_types) and not isinstance(v, (bool, int)):
             v = force_text(v)
         result[f] = v
     return result
