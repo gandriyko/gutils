@@ -121,9 +121,11 @@ class PasswordInput(forms.PasswordInput):
 class NullBooleanSelect(forms.NullBooleanSelect):
 
     def __init__(self, attrs=None):
-        choices = (('1', _('--------')),
-                   ('2', _('Yes')),
-                   ('3', _('No')))
+        choices = (
+            ('unknown', _('--------')),
+            ('true', _('Yes')),
+            ('false', _('No')),
+        )
         super(forms.NullBooleanSelect, self).__init__(attrs, choices)
 
 
