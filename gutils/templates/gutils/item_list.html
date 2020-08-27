@@ -107,7 +107,7 @@
         {% for a in view.list_action %}
         {{ a.display(view)|safe }}
         {% endfor %}
-        {% if view.allow_delete %}
+        {% if view.can_delete() %}
         <button class="btn btn-danger" type="submit" name="_action" value="delete"><span class="fa fa-trash-o"></span> {{ _('Delete') }}</button>
         {% endif %}
     </p>
