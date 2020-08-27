@@ -766,6 +766,9 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             kwargs.update({'data': self.request.GET or None})
         return kwargs
 
+    def on_get(self):
+        pass
+
     def get(self, request, *args, **kwargs):
         self.parent_object = self.get_parent_object()
         # From ProcessFormMixin
@@ -775,6 +778,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
         # From BaseListView
         self.object_list = self.get_queryset()
         forms = self.get_forms()
+        self.on_get()
         context = self.get_context_data(object_list=self.object_list, form=self.form, forms=forms)
         return self.render_to_response(context)
 
