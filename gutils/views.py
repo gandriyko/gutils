@@ -656,6 +656,9 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             result.append(c.sort)
         return result
 
+    def get_list_action(self):
+        return self.list_action
+
     def can_delete(self):
         if not self.allow_delete:
             return False

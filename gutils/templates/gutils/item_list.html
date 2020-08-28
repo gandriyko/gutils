@@ -104,7 +104,7 @@
     </div>
     {% if view.have_checkbox %}
     <p>
-        {% for a in view.list_action %}
+        {% for a in view.get_list_action() %}
         {{ a.display(view)|safe }}
         {% endfor %}
         {% if view.can_delete() %}
