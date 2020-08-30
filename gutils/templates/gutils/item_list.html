@@ -80,11 +80,11 @@
 {% endblock %}
 
 {% block main %}
-
-    {% if view.get_details() %}
+    {% set details = view.get_details() %}
+    {% if details %}
     <div class="details-limited">
     <table class="table table-striped">
-    {% for detail in view.get_details() %}
+    {% for detail in details %}
     <tr>
         <th>{{ detail[0] }}</th>
         <td><b>{{ detail[1] }}</b></td>
@@ -102,10 +102,11 @@
     </table>
     </div>
     </div>
-    {% if view.have_checkbox %}
+    {% set list_action = view.get_list_action() %}
+    {% if view.have_checkbox and list_action %}
     <p>
-        {% for a in view.get_list_action() %}
-        {{ a.display(view)|safe }}
+        {% for action in list_action %}
+        {{ action.display(view)|safe }}
         {% endfor %}
         {% if view.can_delete() %}
         <button class="btn btn-danger" type="submit" name="_action" value="delete"><span class="fa fa-trash-o"></span> {{ _('Delete') }}</button>
