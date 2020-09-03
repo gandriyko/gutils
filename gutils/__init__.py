@@ -14,7 +14,7 @@ from decimal import Decimal
 from operator import attrgetter
 
 from django.conf import settings
-from django.db.models import FieldDoesNotExist
+from django.db.models import FieldDoesNotExist, Model
 from django.utils.http import urlquote
 from django.utils import formats
 from django.utils import six
@@ -146,31 +146,41 @@ def to_int(value, default=0):
         return default
 
 
-def to_dict(obj, fields):
+def to_dict(obj, fields, fields_rules=None):
     result = {}
     _fields = list(fields)
     if 'id' not in fields:
         _fields.insert(0, 'id')
-    for f in _fields:
-        f = f.replace('__', '.')
-        if '.' in f:
+    for field in _fields:
+        _field = field[:]
+        # _field = _field.replace('__', '.')
+        if fields_rules and field in fields_rules:
+            key = fields_rules[field]
+            # key = key.replace('__', '.')
+        else:
+            key = _field[:]
+
+        if '__' in key:
             v = obj
-            for f0 in f.split('.'):
+            for f0 in key.split('__'):
                 if v is not None:
                     v = getattr(v, f0, None)
         else:
-            v = getattr(obj, f, None)
-        if v is None:
-            v = ''
-        elif callable(v):
+            v = getattr(obj, key, None)
+        if callable(v):
             v = v()
-        elif isinstance(v, datetime.datetime):
+
+        if isinstance(v, datetime.datetime):
             v = formats.date_format(v, 'DATETIME_FORMAT', use_l10n=True)
         elif isinstance(v, datetime.date):
             v = formats.date_format(v, 'DATE_FORMAT', use_l10n=True)
-        if not isinstance(v, six.string_types) and not isinstance(v, (bool, int)):
+        elif isinstance(v, Model):
+            v = getattr(v, 'pk', None)
+        elif isinstance(v, Decimal):
             v = force_text(v)
-        result[f] = v
+        #if not isinstance(v, six.string_types) and not isinstance(v, (bool, int)):
+        #    v = force_text(v)
+        result[_field] = v
     return result
 
 
