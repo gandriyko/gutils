@@ -1054,6 +1054,7 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
                           popup=self.request.is_popup)
 
     def form_invalid(self, form, formset=None):
+        print(form.errors)
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_form_class(self):

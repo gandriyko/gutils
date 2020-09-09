@@ -99,7 +99,9 @@ class Column(object):
         field = self.field or self.name
         if not field:
             return
-        return get_attribute(item, field)
+        if callable(field):
+            return field(item)
+        return get_attribute(item, field, call=True)
 
     def get_tooltip_value(self, item):
         if self.tooltip:
