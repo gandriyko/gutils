@@ -22,7 +22,7 @@
 {% for detail in form_details %}
 <tr>
     <th>{{ detail[0] }}</th>
-    <td><div class="detail">{{ detail[1]|safe }}</div></td>
+    <td><div class="detail">{{ detail[1]|default('&nbsp;') }}</div></td>
 </tr>
 {% endfor %}
 {% endif %}
