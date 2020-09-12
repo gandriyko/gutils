@@ -133,8 +133,8 @@ $(document).ready(function(){
         $.cookie('image-ratio', $('#image-ratio').is(':checked'));
         $.cookie('image-size', $('#image-size').val());
 
-        //parent.tinymce.activeEditor.insertContent(html);
-        //parent.tinymce.activeEditor.windowManager.close();
+        parent.tinymce.activeEditor.insertContent(html);
+        parent.tinymce.activeEditor.windowManager.close();
         return false;
     });
 
