@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from django.conf import settings
+from django.utils.safestring import mark_safe
 from six import string_types
 from django.urls import reverse
 from django.db.models import FieldDoesNotExist
@@ -123,7 +124,10 @@ class Column(object):
         if value is not None:
             value = smart_text(value)
             if self.trim and len(value) > self.trim:
-                value = '%s…' % value[:self.trim]
+                value = strip_tags(value)
+                value = '<span title="%s">%s ' \
+                        '<i class="fa fa-angle-double-right red"></i></span>' % (value, value[:self.trim])
+                self.safe = True
             tooltip = self.get_tooltip_value(item)
             if tooltip:
                 if isinstance(value, string_types):
