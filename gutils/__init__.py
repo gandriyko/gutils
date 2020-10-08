@@ -156,6 +156,8 @@ def to_dict(obj, fields, fields_rules=None):
         # _field = _field.replace('__', '.')
         if fields_rules and field in fields_rules:
             key = fields_rules[field]
+            if key is None:
+                continue
             # key = key.replace('__', '.')
         else:
             key = _field[:]
