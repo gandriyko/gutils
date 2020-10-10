@@ -426,9 +426,17 @@ class UrlColumn(TipMixin, Column):
             args.append(a)
         return reverse(self.url, args=args)
 
+    def get_title(self, item):
+        if self.tooltip:
+            if callable(self.tooltip):
+                return self.tooltip(item)
+            else:
+                return self.tooltip
+        return smart_text(self.verbose_name)
+
     def display(self, item):
-        attrs = {}
-        attrs['title'] = smart_text(self.verbose_name)
+        attrs = dict()
+        attrs['title'] = self.get_title(item)
         attrs['class'] = self.get_style(item) or ''
         if self.id is not None:
             attrs['id'] = self.id
