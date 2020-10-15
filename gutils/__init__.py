@@ -179,7 +179,7 @@ def to_dict(obj, fields, fields_rules=None):
         elif isinstance(v, Model):
             v = getattr(v, 'pk', None)
         elif isinstance(v, Decimal):
-            v = force_text(v)
+            v = float(v)
         #if not isinstance(v, six.string_types) and not isinstance(v, (bool, int)):
         #    v = force_text(v)
         result[_field] = v
