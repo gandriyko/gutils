@@ -191,10 +191,13 @@ class AdminViewConfModel(models.Model):
 
     @classmethod
     def set_user_selected_columns(cls, user, url_name, columns):
-        cls.objects.update_or_create(
-            user=user,
-            url_name=url_name,
-            defaults={
-                'selected_columns': ','.join(columns) if columns else None
-            }
-        )
+        if columns:
+            cls.objects.update_or_create(
+                user=user,
+                url_name=url_name,
+                defaults={
+                    'selected_columns': ','.join(columns) if columns else None
+                }
+            )
+        else:
+            cls.objects.filter(user=user, url_name=url_name).delete()

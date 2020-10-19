@@ -19,6 +19,9 @@
 {% endblock %}
 
 {% block before_main %}
+    {% if view.allow_select_columns %}
+        {% set selected_column_list=view.get_selected_column_list() %}
+    {% endif %}
     {% if view and view.tabs %}
         {% include view.tabs %}
     {% endif %}
@@ -59,7 +62,7 @@
             {% endif %}
             <a class="btn" href="{{ path }}" title="{{ _('Remove filter') }}"><span class="fa fa-eraser"></span></a>
             {% if view.allow_select_columns %}
-            <a class="btn modal-box" href="#select-columns-form" title="{{ _('Select columns') }}"><span class="fa fa-list"></span></a>
+            <a class="btn modal-box" href="#select-columns-form" title="{{ _('Select columns') }}"><span class="fa fa-list {% if selected_column_list %} orange{% endif %}"></span></a>
             {% endif %}
         </div>
         <div class="clear"></div>
