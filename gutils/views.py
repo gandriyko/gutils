@@ -556,7 +556,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
     column_list = []
     columns = {}
     excluded_column_list = None
-    allow_select_columns = False
+    allow_select_columns = True
     tabs = None
     parent_model = None
     parent_queryset = None

@@ -165,9 +165,9 @@ class ChangedModel(models.Model):
 
 
 class AdminViewConfModel(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     url_name = models.CharField(max_length=64)
-    selected_columns = models.CharField(max_length=1024, null=True)
+    selected_columns = models.CharField(max_length=2048, null=True)
 
     class Meta:
         db_table = 'admin_view_conf'
@@ -181,10 +181,13 @@ class AdminViewConfModel(models.Model):
 
     @classmethod
     def get_user_selected_columns(cls, user, url_name):
-        try:
-            return cls.objects.get(user=user, url_name=url_name).get_selected_columns()
-        except cls.DoesNotExist:
-            return []
+        obj = cls.objects.filter(user=user, url_name=url_name).first()
+        if obj:
+            return obj.get_selected_columns()
+        default_obj = cls.objects.filter(user__isnull=True, url_name=url_name).first()
+        if default_obj:
+            return default_obj.get_selected_columns()
+        return []
 
     @classmethod
     def set_user_selected_columns(cls, user, url_name, columns):

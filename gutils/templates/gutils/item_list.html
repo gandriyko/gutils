@@ -146,7 +146,7 @@
         <table class="form">
             {% for column in view.column_list %}
                 <tr>
-                    <th><label>{{ column.verbose_name }}</label></th>
+                    <th><label>{{ column.verbose_name|default(column.name) }}</label></th>
                     <td><input type="checkbox" name="column" value="{{ column.name }}" autocomplete="off"
                       {% if not selected_column_list or column.name in selected_column_list %}checked="checked"{% endif %}/></td>
                 </tr>

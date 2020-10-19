@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('url_name', models.CharField(max_length=64)),
-                ('selected_columns', models.CharField(max_length=1024, null=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('selected_columns', models.CharField(max_length=2048, null=True)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, null=True, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'db_table': 'admin_view_conf',
