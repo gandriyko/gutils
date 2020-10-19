@@ -676,6 +676,9 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             result.append(c.sort)
         return result
 
+    def get_list_action(self):
+        return self.list_action or []
+
     def can_delete(self):
         if not self.allow_delete:
             return False
@@ -786,6 +789,9 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             kwargs.update({'data': self.request.GET or None})
         return kwargs
 
+    def on_get(self):
+        pass
+
     def get(self, request, *args, **kwargs):
         self.parent_object = self.get_parent_object()
         # From ProcessFormMixin
@@ -795,6 +801,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
         # From BaseListView
         self.object_list = self.get_queryset()
         forms = self.get_forms()
+        self.on_get()
         context = self.get_context_data(object_list=self.object_list, form=self.form, forms=forms)
         return self.render_to_response(context)
 
@@ -1075,6 +1082,7 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
                           popup=self.request.is_popup)
 
     def form_invalid(self, form, formset=None):
+        print(form.errors)
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_form_class(self):

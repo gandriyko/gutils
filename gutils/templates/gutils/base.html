@@ -30,9 +30,15 @@
 </head>
 <body>
 <header>
+    {% block gutils_menu_toggle %}
     <div id="sidebar-open" class="sidebar-open"><span class="fa fa-bars"></span></div>
-    {% include "gutils/toolbar.html" %}
+    {% endblock %}
+    {% block gutils_toolbar %}
+        {% include "gutils/toolbar.html" %}
+    {% endblock %}
 </header>
+
+{% block gutils_main_menu %}
 <div id="sidebar-overlay" class="sidebar-overlay"></div>
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
@@ -47,6 +53,8 @@
         {% include "gutils/main_menu.html" %}
     </div>
 </div>
+{% endblock %}
+
 <main>
 {% for message in messages %}
 <div class="message-{{ message.tags }}">

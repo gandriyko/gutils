@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from django.conf import settings
+from django.utils.safestring import mark_safe
 from six import string_types
 from django.urls import reverse
 from django.db.models import FieldDoesNotExist
@@ -99,7 +100,9 @@ class Column(object):
         field = self.field or self.name
         if not field:
             return
-        return get_attribute(item, field)
+        if callable(field):
+            return field(item)
+        return get_attribute(item, field, call=True)
 
     def get_tooltip_value(self, item):
         if self.tooltip:
@@ -121,7 +124,10 @@ class Column(object):
         if value is not None:
             value = smart_text(value)
             if self.trim and len(value) > self.trim:
-                value = '%s…' % value[:self.trim]
+                value = strip_tags(value)
+                value = '<span title="%s">%s ' \
+                        '<i class="fa fa-angle-double-right red"></i></span>' % (value, value[:self.trim])
+                self.safe = True
             tooltip = self.get_tooltip_value(item)
             if tooltip:
                 if isinstance(value, string_types):
@@ -420,9 +426,17 @@ class UrlColumn(TipMixin, Column):
             args.append(a)
         return reverse(self.url, args=args)
 
+    def get_title(self, item):
+        if self.tooltip:
+            if callable(self.tooltip):
+                return self.tooltip(item)
+            else:
+                return self.tooltip
+        return smart_text(self.verbose_name)
+
     def display(self, item):
-        attrs = {}
-        attrs['title'] = smart_text(self.verbose_name)
+        attrs = dict()
+        attrs['title'] = self.get_title(item)
         attrs['class'] = self.get_style(item) or ''
         if self.id is not None:
             attrs['id'] = self.id
