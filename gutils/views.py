@@ -963,6 +963,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
                 'success': True,
                 'content': render_to_string('gutils/table_row.html',
                                             {'view': self,
+                                             'column_list': self.get_column_list(),
                                              'item': item},
                                             self.request)
             }
