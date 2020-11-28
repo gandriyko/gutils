@@ -151,6 +151,8 @@ def to_dict(obj, fields, fields_rules=None):
     _fields = list(fields)
     if 'id' not in fields:
         _fields.insert(0, 'id')
+    model = type(obj)
+
     for field in _fields:
         _field = field[:]
         # _field = _field.replace('__', '.')
@@ -168,7 +170,14 @@ def to_dict(obj, fields, fields_rules=None):
                 if v is not None:
                     v = getattr(v, f0, None)
         else:
-            v = getattr(obj, key, None)
+            try:
+                field_type = model._meta.get_field(key).__class__.__name__
+            except Exception:
+                field_type = None
+            if field_type == 'ForeignKey':
+                v = getattr(obj, f'{key}_id', None)
+            else:
+                v = getattr(obj, key, None)
         if callable(v):
             v = v()
 
