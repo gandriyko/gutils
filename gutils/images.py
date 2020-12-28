@@ -201,9 +201,12 @@ def resize(source, destination, width, height, crop=False, watermark=None, quali
             img.paste(mark, (0, 0), mark)
     _check_dir(destination)
     ext = os.path.splitext(source)[1].lower()
-    if ext in ('.jpeg', '.jpg') and img.mode == 'RGBA':
-        img = img.convert('RGB')
-    img.save(destination, quality=quality)
+    if ext in ('.jpeg', '.jpg'):
+        if img.mode == 'RGBA':
+            img = img.convert('RGB')
+        img.save(destination, quality=quality)
+    else:
+        img.save(destination)
     return destination
 
 
