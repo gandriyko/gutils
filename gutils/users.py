@@ -36,7 +36,7 @@ def login_user(request, username, password, warning=True):
     if user is not None:
         if user.is_active:
             login(request, user)
-            if user.force_logout:
+            if getattr(user, 'force_logout', False):
                 user.force_logout = False
                 user.save()
             return user
