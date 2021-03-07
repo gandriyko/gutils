@@ -19,7 +19,10 @@ class AjaxSelectMixin(object):
 
     def get_context(self, name, value, attrs):
         # emulate choices
-        if value:
+        if value and hasattr(self, 'queryset'):
+            obj = self.queryset.filter(pk=value).first()
+            if obj:
+                self.value_text= getattr(obj, 'select2', str(obj))
             self.choices = [(value, self.value_text)]
         return super(AjaxSelectMixin, self).get_context(name, value, attrs)
 
@@ -99,9 +102,10 @@ class AjaxModelField(AjaxModelMixin, forms.ChoiceField):
         _queryset = kwargs.pop('queryset')
         _url = kwargs.pop('url', None)
         _allow_empty = kwargs.pop('allow_empty', not kwargs.get('required'))
-        super(AjaxModelMixin, self).__init__(choices=(), *args, **kwargs)
+        super(AjaxModelMixin, self).__init__(*args, **kwargs)
         self.allow_empty = _allow_empty
         self.queryset = _queryset
+        self.widget.queryset = _queryset
         self.url = _url
 
 
