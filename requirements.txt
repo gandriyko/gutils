@@ -1,7 +1,7 @@
 beautifulsoup4==4.8.0
 mysqlclient==1.4.2
 requests==2.22.0
-django==2.2.13
+django==2.2.18
 Unidecode==1.0.23
 six==1.12.0
 user-agent==0.1.9
