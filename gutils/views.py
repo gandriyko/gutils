@@ -229,8 +229,10 @@ class ItemFormView(TitleMixin, UpdateView):
 
     def get_queryset(self):
         if self.model or self.queryset:
-            return super(ItemFormView, self).get_queryset()
-        return None
+            queryset = super(ItemFormView, self).get_queryset()
+            if self.is_editing:
+                queryset = queryset.select_for_update()
+        return
 
     def get_object(self):
         if not to_int(self.kwargs.get(self.pk_url_kwarg)) and not self.kwargs.get(self.slug_url_kwarg):
@@ -254,6 +256,7 @@ class ItemFormView(TitleMixin, UpdateView):
         return form_class(**kwargs)
 
     def get(self, request, *args, **kwargs):
+        self.is_editing = False
         if self.model or self.queryset:
             self.object = self.get_object()
             response = self.check_object()
@@ -266,6 +269,7 @@ class ItemFormView(TitleMixin, UpdateView):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
+        self.is_editing = True
         if self.model or self.queryset:
             self.object = self.get_object()
             response = self.check_object()
@@ -1036,6 +1040,7 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
     def __init__(self, *args, **kwargs):
         pre_init_view.send(sender=self.__class__, instance=self)
         super(AdminEditView, self).__init__(*args, **kwargs)
+        self.is_editing = False
         post_init_view.send(sender=self.__class__, instance=self)
 
     def form_save(self, form):
@@ -1044,6 +1049,12 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
     def formset_save(self, formset):
         if issubclass(self.formset_class, BaseModelFormSet):
             formset.save()
+
+    def get_queryset(self):
+        queryset = super(AdminEditView, self).get_queryset()
+        if self.is_editing:
+            queryset = queryset.select_for_update()
+        return queryset
 
     def get_object(self):
         if self.allow_create and not to_int(self.kwargs.get(self.pk_url_kwarg)) \
@@ -1106,6 +1117,7 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
         return
 
     def get(self, request, *args, **kwargs):
+        self.is_editing = False
         self.object = self.get_object()
         response = self.check_object()
         if response:
@@ -1124,6 +1136,7 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
+        self.is_editing = True
         self.object = self.get_object()
         response = self.check_object()
         if response:
@@ -1160,10 +1173,17 @@ class AdminFormSetView(PermissionMixin, EditFormMixin, DetailView):
     def __init__(self, *args, **kwargs):
         pre_init_view.send(sender=self.__class__, instance=self)
         super(AdminFormSetView, self).__init__(*args, **kwargs)
+        self.is_editing = False
         post_init_view.send(sender=self.__class__, instance=self)
 
     def formset_save(self, formset):
         self.object_list = formset.save()
+
+    def get_queryset(self):
+        queryset = super(AdminEditView, self).get_queryset()
+        if self.is_editing:
+            queryset = queryset.select_for_update()
+        return queryset
 
     def get_object(self):
         return super(AdminFormSetView, self).get_object()
@@ -1185,12 +1205,14 @@ class AdminFormSetView(PermissionMixin, EditFormMixin, DetailView):
         return self.render_to_response(self.get_context_data(formset=formset))
 
     def get(self, request, *args, **kwargs):
+        self.is_editing = False
         self.object = self.get_object()
         formset = self.formset_class(instance=self.object)
         return self.render_to_response(self.get_context_data(formset=formset))
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
+        self.is_editing = True
         self.object = self.get_object()
         formset = self.formset_class(request.POST, instance=self.object)
         if formset.is_valid():
