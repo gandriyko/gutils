@@ -472,13 +472,16 @@ class ItemActionView(SingleObjectMixin, View):
     def check_object(self):
         return
 
+    def get_queryset(self):
+        return super(ItemActionView, self).get_queryset().select_for_update()
+
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         response = self.check_object()
         if response:
             return response
-        action = transaction.atomic(self.action)
-        response = action()
+        response = self.action()
         if response:
             return response
         url = self.get_redirect_url(*args, **kwargs)
@@ -1056,11 +1059,11 @@ class AdminEditView(PermissionMixin, EditFormMixin, UpdateView):
             queryset = queryset.select_for_update()
         return queryset
 
-    def get_object(self):
+    def get_object(self, *args, **kwargs):
         if self.allow_create and not to_int(self.kwargs.get(self.pk_url_kwarg)) \
                 and not self.kwargs.get(self.slug_url_kwarg):
             return
-        return super(AdminEditView, self).get_object()
+        return super(AdminEditView, self).get_object(*args, **kwargs)
 
     def get_form_kwargs(self):
         res = super(AdminEditView, self).get_form_kwargs()
