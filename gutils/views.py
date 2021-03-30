@@ -227,12 +227,17 @@ class ItemFormView(TitleMixin, UpdateView):
     form_class = None
     template_name = 'gutils/item_edit.html'
 
+    def __init__(self, *args, **kwargs):
+        super(ItemFormView, self).__init__(*args, **kwargs)
+        self.is_editing = False
+
     def get_queryset(self):
+        queryset = None
         if self.model or self.queryset:
             queryset = super(ItemFormView, self).get_queryset()
             if self.is_editing:
                 queryset = queryset.select_for_update()
-        return
+        return queryset
 
     def get_object(self):
         if not to_int(self.kwargs.get(self.pk_url_kwarg)) and not self.kwargs.get(self.slug_url_kwarg):
