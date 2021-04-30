@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
 import datetime
 import json
 import pprint
@@ -14,10 +12,11 @@ from decimal import Decimal
 from operator import attrgetter
 
 from django.conf import settings
-from django.db.models import FieldDoesNotExist, Model
+from django.core.exceptions import FieldDoesNotExist
+from django.db.models import Model
 from django.utils.http import urlquote
 from django.utils import formats
-from django.utils import six
+
 from django.utils.encoding import DjangoUnicodeDecodeError
 from django.utils.encoding import force_text
 from django.utils.functional import lazy
@@ -134,7 +133,7 @@ def get_name(model, field=None, upper=True, plural=False):
         return name
 
 
-get_name_lazy = lazy(get_name, six.text_type)
+get_name_lazy = lazy(get_name, str)
 
 
 def to_int(value, default=0):
@@ -189,7 +188,7 @@ def to_dict(obj, fields, fields_rules=None):
             v = getattr(v, 'pk', None)
         elif isinstance(v, Decimal):
             v = float(v)
-        #if not isinstance(v, six.string_types) and not isinstance(v, (bool, int)):
+        # if not isinstance(v, str) and not isinstance(v, (bool, int)):
         #    v = force_text(v)
         result[_field] = v
     return result
