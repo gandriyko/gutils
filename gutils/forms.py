@@ -6,7 +6,7 @@ from django.utils import formats
 from django.conf import settings
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags

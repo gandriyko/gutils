@@ -6,7 +6,7 @@ from django.conf import settings
 from django.utils import formats
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
 from django.utils.encoding import force_text
 from django.forms.utils import flatatt

@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.html import escape, escapejs, strip_tags
 from django.utils.encoding import smart_text, force_text
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.template import engines
 from django.utils import formats
 from gutils import get_attribute, to_int

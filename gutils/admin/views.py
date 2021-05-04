@@ -12,7 +12,7 @@ from django.views.generic import View, TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.db.models import ProtectedError
 from gutils.files import upload_file
 from gutils.querysets import get_realated_items

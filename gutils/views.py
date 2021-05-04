@@ -23,7 +23,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, resolve_url, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 from django.utils import formats
 from django.utils.html import escape
