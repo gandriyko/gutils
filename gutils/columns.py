@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from six import string_types
 from django.urls import reverse
-from django.db.models import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist
 from django.utils.html import escape, escapejs, strip_tags
 from django.utils.encoding import smart_text, force_text
 from django.utils.translation import ugettext_lazy as _
