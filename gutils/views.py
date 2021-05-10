@@ -567,6 +567,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
     empty_query = False
     column_list = []
     columns = {}
+    table_class = None
     excluded_column_list = None
     allow_select_columns = True
     tabs = None
@@ -589,16 +590,20 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
         if not self.model:
             self.model = self.queryset.model
 
-        if hasattr(self, 'Columns'):
-            for key, value in self.Columns.__dict__.items():
-                if isinstance(value, Column):
-                    column = copy.deepcopy(value)
-                    column.init(self, key)
-                    column_list.append(column)
+        _columns = self.get_columns()  # add by columns property get_columns
+        if not _columns:
+            if hasattr(self, 'Columns'):
+                _columns = self.Columns.__dict__  # add columns by Columns subclass
+            elif self.table_class:
+                table = self.table_class(self)
+                _columns = table.get_columns()  # add columns by table_class
+
+        self.update_columns()
 
         excluded_column_list = self.get_excluded_column_list()
         self_columns = {}
-        for key, value in self.get_columns().items():
+
+        for key, value in _columns.items():
             if isinstance(value, Column) and key not in excluded_column_list:
                 column = copy.deepcopy(value)
                 column.init(self, key)
@@ -608,6 +613,9 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
 
         self.column_list = sorted(column_list, key=lambda c: c.index)
         post_init_view.send(sender=self.__class__, instance=self)
+
+    def update_columns(self):
+        pass
 
     def get_columns(self):
         return self.columns
@@ -628,12 +636,15 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
                                                                 self.request.url_name)
         return []
 
-    def add_column(self, name, column, after=None):
+    def add_column(self, name, column, after=None, before=None):
         column = copy.deepcopy(column)
         column.init(self, name)
         self.columns[name] = column
         if after:
             index = self.column_list.index(self.columns[after])
+            self.column_list.insert(index + 1, column)
+        elif before:
+            index = self.column_list.index(self.columns[before])
             self.column_list.insert(index, column)
         else:
             self.column_list.append(column)
