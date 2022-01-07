@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django_jinja import library
 from itertools import groupby
 import jinja2
@@ -26,7 +24,6 @@ from django.forms.widgets import Media
 from decimal import Decimal
 import calendar
 import datetime
-import urllib
 import six
 import os
 import re
@@ -110,7 +107,7 @@ def static_render(context):
         result.append('<script type="text/javascript" src="%s"></script>' % staticfiles_storage.url(js))
     for media, items in context['static_css'].items():
         for css in items:
-            result.append('<link type="text/css" href="%s" media="%s" rel="stylesheet" />' % \
+            result.append('<link type="text/css" href="%s" media="%s" rel="stylesheet" />' %
                           (staticfiles_storage.url(css), media))
     return '\n'.join(result)
 
@@ -171,6 +168,7 @@ def yesno(value, arg=None):
     if value:
         return yes
     return no
+
 
 pos_inf = 1e200 * 1e200
 neg_inf = -1e200 * 1e200
@@ -233,9 +231,8 @@ def yesno_icon(value, title=""):
     result = 'fa-minus-circle'
     if value:
         result = 'fa-check-circle'
-    t = ' title="%s"' %  escape(title) if title else ''
+    t = ' title="%s"' % escape(title) if title else ''
     return '<span class="fa %s"%s></span>' % (result, t)
-    #return '%sgutils/css/images/%s.png' % (settings.MEDIA_URL, result)
 
 
 @library.global_function
@@ -377,7 +374,7 @@ def field_value(obj, field_name):
 @library.filter
 def human_number(value):
     orig = force_text(value)
-    new = re.sub("^(-?\d+)(\d{3})", '\g<1> \g<2>', orig)
+    new = re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', orig)
     if orig == new:
         return new
     else:
@@ -733,7 +730,7 @@ def admin_form_show(context, form=None, formset=None, **kwargs):
         data['hide_csrf'] = kwargs.get('hide_csrf', False)
     data['reload_when_close'] = kwargs.get('reload_when_close') or False
     data['is_popup'] = context.get('is_popup', False)
-    data['csrf_token'] = context.get('csrf_token', None)    
+    data['csrf_token'] = context.get('csrf_token', None)
     if form:
         template_name = 'gutils/admin_form_show.html'
     elif formset:

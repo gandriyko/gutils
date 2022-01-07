@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models.query import QuerySet
 from gutils import to_int
-from django.shortcuts import redirect, render, resolve_url
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from gutils.strings import JSONEncoder
 
@@ -97,7 +97,7 @@ def get_ip(request):
     if not ip:
         try:
             ip = request.META.get('HTTP_X_FORWARDED_FOR', ',').split(',')[0]
-        except:
+        except Exception:
             pass
     if not ip:
         ip = request.META.get('REMOTE_ADDR', '')

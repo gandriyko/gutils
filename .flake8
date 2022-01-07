@@ -1,0 +1,6 @@
+[flake8]
+ignore = W504,E501,E126,S311,S303,S610,S308,S703,S608,S410,S320,S101,S105
+max-complexity = 100
+exclude = env/*
+
+

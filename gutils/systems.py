@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-from __future__ import print_function
-from django.conf import settings
-from django.utils.encoding import force_text, smart_bytes, force_bytes
+from django.utils.encoding import force_text, smart_bytes
 from django.core.cache import cache
 from django.utils.http import urlquote
 from subprocess import check_output, CalledProcessError
@@ -15,13 +10,8 @@ import random
 import hashlib
 from gutils import Struct
 import requests
-import certifi
-from io import BytesIO
+from io import BytesIO, StringIO
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
 
 class FTPNoFiles(Exception):
     pass

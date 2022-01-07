@@ -22,7 +22,7 @@ class AjaxSelectMixin(object):
         if value and hasattr(self, 'queryset'):
             obj = self.queryset.filter(pk=value).first()
             if obj:
-                self.value_text= getattr(obj, 'select2', str(obj))
+                self.value_text = getattr(obj, 'select2', str(obj))
             self.choices = [(value, self.value_text)]
         return super(AjaxSelectMixin, self).get_context(name, value, attrs)
 

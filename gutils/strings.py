@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import re
 from django.utils.html import escape, strip_tags
-from django.utils.encoding import force_text, smart_bytes
+from django.utils.encoding import smart_bytes, force_text
 from django.conf import settings
 from django.utils.functional import Promise
-from django.utils.encoding import force_text
 from django.core.serializers.json import DjangoJSONEncoder
 from unidecode import unidecode
 from decimal import Decimal
@@ -60,11 +57,11 @@ def get_slug(value, max_length=100):
         return None
     value = force_text(value)
     value = unidecode(value)
-    value = re.sub('[\.\']', '', value).strip().lower()
-    value = re.sub('[^\w]', '-', value).strip().lower()
-    value = re.sub('[-\s]+', '-', value)
-    value = re.sub('\-$', '', value)
-    value = re.sub('^\-', '', value)
+    value = re.sub(r'[\.\']', '', value).strip().lower()
+    value = re.sub(r'[^\w]', '-', value).strip().lower()
+    value = re.sub(r'[-\s]+', '-', value)
+    value = re.sub(r'\-$', '', value)
+    value = re.sub(r'^\-', '', value)
     return value[:max_length]
 
 

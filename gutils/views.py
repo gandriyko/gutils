@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from django.conf import settings
 from django.db import transaction
 from django.db.models import ProtectedError
@@ -15,7 +12,6 @@ from django.views.generic import View, TemplateView, ListView, DetailView, Updat
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, FormView
 from django.views.i18n import JavaScriptCatalog as _JavaScriptCatalog
-from django.views.decorators.cache import cache_control
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import force_bytes
@@ -46,12 +42,7 @@ import datetime
 import time
 import hashlib
 import random
-import json
-
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
+import pickle
 
 
 logger = logging.getLogger(__name__)
@@ -368,7 +359,7 @@ class ItemListView(TitleMixin, FormMixin, ListView):
             if not self.parent_lookup:
                 self.parent_lookup = self.parent_queryset.model._meta.model_name
             queryset = queryset.filter(**{self.parent_lookup: self.parent_object})
-        if self.form: 
+        if self.form:
             if self.form.is_valid():
                 q = self.form.get_query()
                 if q is None:
@@ -1215,7 +1206,7 @@ class AdminFormSetView(PermissionMixin, EditFormMixin, DetailView):
         initial['next'] = get_referer(self.request, default_url=settings.GUTILS_ADMIN_INDEX)
         return initial
 
-    def formset_valid(self,  formset=None):
+    def formset_valid(self, formset=None):
         self.formset_save(formset)
         messages.info(self.request, _('%s saved.') % get_name(self.model))
         return close_view(self.request, next=self.get_success_url(), popup=self.request.is_popup)

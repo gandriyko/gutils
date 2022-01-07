@@ -1,4 +1,3 @@
-#coding: utf-8
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import wraps
@@ -59,7 +58,7 @@ def cached_by_key(cache_key='', timeout_seconds=1800):
             elif callable(cache_key):
                 key = cache_key(*args, **kws)
             data = cache.get(key)
-            if not data is None:
+            if data is not None:
                 return data
             data = func(*args, **kws)
             cache.set(key, data, timeout_seconds)

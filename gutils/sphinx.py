@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from django.conf import settings
 from django.utils.encoding import force_text
 import MySQLdb
@@ -18,7 +15,7 @@ def safe_value(value):
     return value
 
 
-class SphinxConnector():
+class SphinxConnector:
 
     def __init__(self, **kwargs):
         connection_options = {
@@ -39,17 +36,10 @@ class SphinxConnector():
     def close(self):
         del self.connection
 
-
-
     def execute(self, query, params, **kwargs):
         safe = kwargs.get('safe', False)
         if safe:
             params = [safe_value(a) for a in params]
-        try:
-            cursor = self.connection.cursor()
-            cursor.execute(query, params)
-            return cursor.fetchall()
-        except Exception as e:
-            raise e
-        finally:
-            cursor.close()
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        return cursor.fetchall()

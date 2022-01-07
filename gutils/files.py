@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.utils.encoding import force_text, force_bytes
 from django.conf import settings
 from gutils.archiver import unpack_file

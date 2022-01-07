@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
-from django.utils import formats
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import get_language
 from django.utils.encoding import force_text
 from django.forms.utils import flatatt
 from django.utils.html import escape, conditional_escape
@@ -236,7 +231,7 @@ class ImagesWidget(forms.widgets.Widget):
                 continue
             try:
                 image = save_image(f, folder='temp', size=self.size, quality=self.quality)
-            except:
+            except Exception:
                 image = None
             if image:
                 images.append(os.path.basename(image))

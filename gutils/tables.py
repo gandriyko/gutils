@@ -1,4 +1,3 @@
-import copy
 from gutils.columns import Column
 
 
@@ -16,4 +15,3 @@ class Table:
             if isinstance(value, Column):
                 self.columns[attr] = value
         return self.columns
-

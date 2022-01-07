@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from django.utils.encoding import force_text
 from django.utils import formats
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN, ROUND_UP, InvalidOperation, Context
@@ -74,6 +73,7 @@ def decimal_round(value):
         if value % 1 <= Decimal('0.5'):
             return Decimal(int(value) + Decimal('0.50'))
     return value.quantize(Decimal('1'), rounding=ROUND_UP)
+
 
 pos_inf = 1e200 * 1e200
 neg_inf = -1e200 * 1e200

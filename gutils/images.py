@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 from django.utils.encoding import force_text
@@ -100,6 +98,7 @@ class ImageModel(models.Model):
                 final_name = final_name.replace('\\', '/')
                 if file_name != final_name:
                     field.storage.delete(final_name)
+
                     # delete thumbnails
                     delete_thumbnail(final_name)
                     field.storage.save(final_name, field)
@@ -108,9 +107,9 @@ class ImageModel(models.Model):
                         width, height = options['max_size'].split('x')
                         resize(full_path, full_path, width, height, False)
                     setattr(self, field_name, final_name)
-                    try:  # windows fix
+                    try:
                         field.storage.delete(file_name)
-                    except:
+                    except Exception:
                         pass
         super(ImageModel, self).save(force_insert, force_update)
 
@@ -288,7 +287,7 @@ def delete_image(filename):
             path = os.path.join(settings.MEDIA_ROOT, filename).replace('\\', '/')
             if os.path.exists(path):
                 os.remove(path)
-    except:
+    except Exception:
         return False
     return True
 
@@ -355,7 +354,7 @@ def delete_thumbnail(filename):
             for file in glob.glob(name + '_*'):
                 if os.path.exists(file):
                     os.remove(file)
-    except:
+    except Exception:
         return False
     return True
 

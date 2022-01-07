@@ -1,8 +1,6 @@
 # Orignal version taken from http://www.djangosnippets.org/snippets/186/
 # Original author: udfalkso
-# Modified by: Shwagroo Team
 
-import re
 try:
     from cStringIO import StringIO
 except ImportError:

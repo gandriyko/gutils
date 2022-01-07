@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from django.conf import settings
-from django.utils.safestring import mark_safe
 from six import string_types
 from django.urls import reverse
 from django.core.exceptions import FieldDoesNotExist
@@ -241,7 +237,6 @@ class DecimalColumn(Column):
         if self.color:
             return '<span class="%s">%s</span>' % (self.color, value)
         return value
-        
 
 
 class PhoneColumn(Column):

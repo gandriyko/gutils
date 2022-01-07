@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text, force_bytes
 from openpyxl.reader.excel import load_workbook
@@ -21,7 +19,7 @@ MAX_ERRORS = 30
 
 
 def detect_encoding(value, force_cp1251=False):
-    dos = list(range(0x80, 0xB0)) + list(range(0xE0,  0xF0))
+    dos = list(range(0x80, 0xB0)) + list(range(0xE0, 0xF0))
     win = list(range(0xC0, 0x100))
     win_count = dos_count = 0
     if not force_cp1251:
@@ -81,7 +79,7 @@ class ExcelReader(object):
         self.encoding = kwargs.get('encoding') or 'utf8'
         try:
             self.book = xlrd.open_workbook(filename, encoding_override=self.encoding)
-        except:
+        except Exception:
             self.book = xlrd.open_workbook(filename, encoding_override='cp1251')
             self.sheet = self.book.sheet_by_index(0)
 
@@ -176,7 +174,7 @@ class ExcelNewReader(object):
 
 class HTMLReader(object):
 
-    def __init__(self, filename,  **kwargs):
+    def __init__(self, filename, **kwargs):
         self.filename = filename
         if not os.path.isfile(filename):
             raise NameError("%s is not a valid filename" % filename)

@@ -15,12 +15,12 @@ def variables(request):
     else:
         full_path = ''
     LANGUAGES_REGION = getattr(settings, 'LANGUAGES_REGION', {})
-    alternate_languages = list(dict(code=l[0], name=l[1], url='/%s/%s' % (l[0], full_path), region=LANGUAGES_REGION.get(l[0]))
-                               for l in settings.LANGUAGES)
+    alternate_languages = list(dict(code=lang[0], name=lang[1], url='/%s/%s' % (lang[0], full_path), region=LANGUAGES_REGION.get(lang[0]))
+                               for lang in settings.LANGUAGES)
     current_language = ''
-    for l in settings.LANGUAGES:
-        if l[0] == request.LANGUAGE_CODE:
-            current_language = l[1]
+    for lang in settings.LANGUAGES:
+        if lang[0] == request.LANGUAGE_CODE:
+            current_language = lang[1]
 
     return {'user': getattr(request, 'user', None),
             'path': request.path,

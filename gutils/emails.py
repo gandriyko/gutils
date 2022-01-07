@@ -1,12 +1,8 @@
-from __future__ import unicode_literals
-
 import base64
 import email
 import os
-import quopri
 import re
 import six
-import sys
 
 from email.header import decode_header
 from gutils import Struct

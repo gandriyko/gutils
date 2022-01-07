@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from django.conf import settings
 from django.http import Http404
 from django.apps import apps
@@ -9,7 +6,6 @@ from django.utils.encoding import smart_text
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.generic import View, TemplateView
-from django.views.generic.edit import FormView
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import gettext_lazy as _
@@ -24,13 +20,11 @@ from gutils.views import PermissionMixin, AdminFormView
 from gutils.strings import get_slug
 from gutils.signals import post_delete, post_change
 from gutils.reader import Reader
-import datetime
 import random
 import shutil
 import logging
 import glob
 import os
-import re
 
 
 logger = logging.getLogger(__name__)

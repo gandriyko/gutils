@@ -21,12 +21,12 @@ class BaseMiddleware(object):
         try:
             request.view_func = view_func.__name__
             request.view_name = ".".join((view_func.__module__, view_func.__name__))
-        except:
+        except Exception:
             request.view_func = ''
             request.view_name = ''
         try:
             request.url_name = resolve(request.path_info).url_name or ''
-        except:
+        except Exception:
             request.url_name = ''
 
 

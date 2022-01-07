@@ -1,6 +1,3 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-
 from django.utils.encoding import force_text, smart_bytes, force_bytes
 from unidecode import unidecode
 from six import string_types

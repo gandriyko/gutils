@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-from __future__ import print_function
 from django.core.cache import caches
 from user_agent import generate_user_agent
 import requests
