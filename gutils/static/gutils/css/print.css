@@ -55,11 +55,11 @@ table th{
     background-color: #eee;
     vertical-align: top;
     padding: 2px;
-    border:1px solid #ccc;
+    border:1px solid #777;
 }
 
 table td{
-    border:1px solid #ccc;
+    border:1px solid #777;
     padding:2px 4px;
     vertical-align: top;
 }
