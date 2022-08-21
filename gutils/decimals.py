@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils import formats
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN, ROUND_UP, InvalidOperation, Context
 from six import string_types
@@ -83,7 +83,7 @@ special_floats = [str(pos_inf), str(neg_inf), str(nan)]
 
 def decimal_format(text, arg=-1):
     try:
-        input_val = force_text(text)
+        input_val = force_str(text)
         d = Decimal(input_val)
     except UnicodeEncodeError:
         return ''
@@ -91,7 +91,7 @@ def decimal_format(text, arg=-1):
         if input_val in special_floats:
             return input_val
         try:
-            d = Decimal(force_text(float(text)))
+            d = Decimal(force_str(float(text)))
         except (ValueError, InvalidOperation, TypeError, UnicodeEncodeError):
             return ''
     try:
@@ -121,7 +121,7 @@ def decimal_format(text, arg=-1):
         # and `exponent` from `Decimal.as_tuple()` directly.
         sign, digits, exponent = d.quantize(exp, ROUND_HALF_UP,
                                             Context(prec=prec)).as_tuple()
-        digits = [force_text(digit) for digit in reversed(digits)]
+        digits = [force_str(digit) for digit in reversed(digits)]
         while len(digits) <= abs(exponent):
             digits.append('0')
         digits.insert(-exponent, '.')

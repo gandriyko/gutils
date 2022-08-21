@@ -2,7 +2,7 @@
 
 from django.db import models
 from django.shortcuts import _get_queryset
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 import gc
 
 

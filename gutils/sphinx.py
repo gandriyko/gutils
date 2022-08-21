@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 import MySQLdb
 from MySQLdb import cursors
 import six
@@ -8,7 +8,7 @@ import re
 
 def safe_value(value):
     if isinstance(value, six.string_types):
-        v = force_text(value)
+        v = force_str(value)
         v = re.sub(r'[^\d\w ]', ' ', v, flags=re.U)
         v = re.sub(r' +', ' ', v)
         return v.strip()

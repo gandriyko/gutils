@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from gutils.strings import get_slug
 from gutils import to_int, base36encode
 import os
@@ -145,8 +145,8 @@ def save_temp_image(obj, path):
 
 
 def move_image(source, destination):
-    source = force_text(source)
-    destination = force_text(destination)
+    source = force_str(source)
+    destination = force_str(destination)
     source = os.path.join(settings.MEDIA_ROOT, source).replace('\\', '/')
     if not os.path.isfile(source):
         return False
@@ -212,7 +212,7 @@ def resize(source, destination, width, height, crop=False, watermark=None, quali
 def save_image(post_file, **kwargs):
     folder = kwargs.get('folder', '')
     if folder:
-        folder = force_text(folder)
+        folder = force_str(folder)
         if not folder.endswith('/'):
             folder = '%s/' % folder
     size = kwargs.get('size')
@@ -223,7 +223,7 @@ def save_image(post_file, **kwargs):
     partition = kwargs.get('partition', False)
     overwrite = kwargs.get('overwrite', False)
     if name:
-        name = force_text(name)
+        name = force_str(name)
         name = get_slug(os.path.splitext(name)[0])
     else:
         name = base36encode(uuid.uuid4().int).lower()
@@ -281,7 +281,7 @@ def unique_image(image, media_root=None):
 
 def delete_image(filename):
     try:
-        filename = force_text(filename)
+        filename = force_str(filename)
         if filename:
             delete_thumbnail(filename)
             path = os.path.join(settings.MEDIA_ROOT, filename).replace('\\', '/')
@@ -297,7 +297,7 @@ def thumbnail(name, params='', replace=False, fake=False, exclude=None):
         Create thumbnail from image in filename.
         Note: filename is short name
     '''
-    name = force_text(name)
+    name = force_str(name)
     if exclude:
         for e in exclude.split(','):
             if name.startswith(e):
@@ -346,7 +346,7 @@ def thumbnail(name, params='', replace=False, fake=False, exclude=None):
 
 def delete_thumbnail(filename):
     try:
-        filename = force_text(filename)
+        filename = force_str(filename)
         if filename:
             path = os.path.join(settings.MEDIA_ROOT, 'thumbs', filename).replace('\\', '/')
             name, ext = path.rsplit('.', 1)

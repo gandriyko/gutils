@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text, smart_bytes, force_bytes
+from django.utils.encoding import force_str, smart_bytes, force_bytes
 from unidecode import unidecode
 from six import string_types
 import hashlib
@@ -53,12 +53,12 @@ def _args_to_unicode(args, kwargs):
         if value is None:
             return 'None'
         if hasattr(value, 'pk'):
-            return force_text(getattr(value, 'pk', None))
+            return force_str(getattr(value, 'pk', None))
         if isinstance(value, (list, tuple)):
-            res = [force_text(v) for v in value]
+            res = [force_str(v) for v in value]
             return "[%s]" % ",".join(res)
         if isinstance(value, string_types):
-            return unidecode(force_text(value))
+            return unidecode(force_str(value))
         return str(value)
 
     key = []
@@ -82,7 +82,7 @@ def _cache_key(func_name, func_type, args, kwargs, force_key=None):
     key = force_bytes(key)
     if len(key) > MAX_LENGTH:
         try:
-            h = force_text(hashlib.md5(key).hexdigest())
+            h = force_str(hashlib.md5(key).hexdigest())
         except Exception as e:
             print(e)
             h = ''

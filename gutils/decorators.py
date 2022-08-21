@@ -9,18 +9,15 @@ from django.core.mail import mail_admins
 import hashlib
 import time
 import functools
-import jinja2
+from markupsafe import Markup
+import pickle
 from gutils.shortcuts import get_ip
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
 
 
 def safe(function):
     @functools.wraps(function)
     def _decorator(*args, **kwargs):
-        return jinja2.Markup(mark_safe(function(*args, **kwargs)))
+        return Markup(mark_safe(function(*args, **kwargs)))
     return _decorator
 
 

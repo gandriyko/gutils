@@ -1,5 +1,5 @@
-from django.utils.translation import ugettext as _
-from django.utils.encoding import force_text, force_bytes
+from django.utils.translation import gettext as _
+from django.utils.encoding import force_str, force_bytes
 from openpyxl.reader.excel import load_workbook
 from django.utils.functional import cached_property
 from gutils import Struct
@@ -234,7 +234,7 @@ class CSVReader(object):
             else:
                 quotechar = '"'
         if six.PY3:
-            delimiter = force_text(delimiter)
+            delimiter = force_str(delimiter)
         else:
             delimiter = force_bytes(delimiter)
         if six.PY2:
@@ -249,7 +249,7 @@ class CSVReader(object):
     def __iter__(self):
         try:
             for row in self.csv_file:
-                yield [force_text(r, encoding=self.encoding, errors="ignore") for r in row]
+                yield [force_str(r, encoding=self.encoding, errors="ignore") for r in row]
         except CSVError as e:
             if str(e) != 'newline inside string':
                 raise e
@@ -333,7 +333,7 @@ class Reader(object):
                 if not value:
                     continue
                 try:
-                    result[key] = force_text(row[int(value) - 1], self.reader.encoding, errors='ignore').strip()
+                    result[key] = force_str(row[int(value) - 1], self.reader.encoding, errors='ignore').strip()
                     if not result[key] and key in required:
                         ready = False
                         if len(self.errors) < MAX_ERRORS:
@@ -345,7 +345,7 @@ class Reader(object):
                         self.errors.append(
                             _('Row %(index)s: check field "%(key)s".') % {'index': index, 'key': key})
             if debug:
-                result._row = ';'.join(map(force_text, row))
+                result._row = ';'.join(map(force_str, row))
                 result._row_number = index
             if ready:
                 yield result

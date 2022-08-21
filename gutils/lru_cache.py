@@ -2,7 +2,7 @@ import time
 import functools
 import collections
 from threading import RLock
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 
 def lru_cache(maxsize=255, timeout=None):
@@ -62,11 +62,11 @@ def lru_cache(maxsize=255, timeout=None):
             def as_text(obj):
                 result = getattr(obj, 'pk', None)
                 if result is not None:
-                    return force_text(result)
-                return force_text(obj)
+                    return force_str(result)
+                return force_str(obj)
 
-            kwargs_key = "".join(map(lambda x: force_text(x) + force_text(type(kwargs[x])) + as_text(kwargs[x]), sorted(kwargs)))
-            key = u"".join(map(lambda x: force_text(type(x)) + as_text(x), args)) + kwargs_key
+            kwargs_key = "".join(map(lambda x: force_str(x) + force_str(type(kwargs[x])) + as_text(kwargs[x]), sorted(kwargs)))
+            key = u"".join(map(lambda x: force_str(type(x)) + as_text(x), args)) + kwargs_key
             # Check if caller exists, if not create one:
             if caller not in self._caches:
                 self._caches[caller] = [collections.OrderedDict(), time.time()]

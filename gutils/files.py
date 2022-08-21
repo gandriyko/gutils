@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text, force_bytes
+from django.utils.encoding import force_str, force_bytes
 from django.conf import settings
 from gutils.archiver import unpack_file
 from gutils.strings import get_slug
@@ -80,7 +80,7 @@ def upload_file(post_file, file_path, file_name=''):
 def save_file(afile, **kwargs):
     folder = kwargs.get('folder', '')
     if folder:
-        folder = force_text(folder)
+        folder = force_str(folder)
         if not folder.endswith('/'):
             folder = u"%s/" % folder
     name = str(kwargs.get('name', ''))
@@ -91,10 +91,10 @@ def save_file(afile, **kwargs):
     if ext == '.jpeg':
         ext = '.jpg'
     if name:
-        name = force_text(name)
+        name = force_str(name)
         name = get_slug(os.path.splitext(name)[0])
     else:
-        name = force_text(hashlib.md5(force_bytes(str(random.random()) + settings.SECRET_KEY + ':)')).hexdigest())
+        name = force_str(hashlib.md5(force_bytes(str(random.random()) + settings.SECRET_KEY + ':)')).hexdigest())
     if prefix is not None:
         imagename = u"%s%s/%s%s" % (folder, prefix, name, ext)
     else:

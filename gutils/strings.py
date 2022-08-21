@@ -1,6 +1,6 @@
 import re
 from django.utils.html import escape, strip_tags
-from django.utils.encoding import smart_bytes, force_text
+from django.utils.encoding import smart_bytes, force_str
 from django.conf import settings
 from django.utils.functional import Promise
 from django.core.serializers.json import DjangoJSONEncoder
@@ -40,7 +40,7 @@ class JSONEncoder(DjangoJSONEncoder):
 
     def default(self, obj):
         if isinstance(obj, Promise):
-            return force_text(obj)
+            return force_str(obj)
         elif isinstance(obj, Decimal):
             return float(obj)
         return super(JSONEncoder, self).default(obj)
@@ -55,7 +55,7 @@ def translate(string):
 def get_slug(value, max_length=100):
     if value is None:
         return None
-    value = force_text(value)
+    value = force_str(value)
     value = unidecode(value)
     value = re.sub(r'[\.\']', '', value).strip().lower()
     value = re.sub(r'[^\w]', '-', value).strip().lower()
@@ -91,7 +91,7 @@ def correct_number(number):
     if not number:
         return ''
     number = number.upper()
-    number = force_text(number)
+    number = force_str(number)
     abc_ru = 'ЙЦУКЕНГШЩЗФІВАПРОЛДЯЧСМИТЬ'
     abc_en = 'QWERTYUIOPASDFGHJKLZXCVBNM'
     table = dict((ord(c1), ord(c2)) for c1, c2 in zip(abc_ru, abc_en))
@@ -178,7 +178,7 @@ def plain_text(text, n=0):
 def hide_text(value, force=False):
     if not value:
         return ''
-    value = force_text(value)
+    value = force_str(value)
     if force:
         return '*' * len(value)
     if len(value) > 2:

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 import io
 import json
@@ -24,6 +24,6 @@ class PrivateManifestStaticFilesStorage(ManifestStaticFilesStorage):
             settings.BASE_DIR, 'private', self.manifest_name))
         if os.path.exists(manifest_location):
             os.remove(manifest_location)
-        contents = force_text(json.dumps(payload))
+        contents = force_str(json.dumps(payload))
         with io.open(manifest_location, 'w', encoding='utf-8') as manifest:
             manifest.write(contents)

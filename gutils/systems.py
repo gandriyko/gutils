@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text, smart_bytes
+from django.utils.encoding import force_str, smart_bytes
 from django.core.cache import cache
 from django.utils.http import urlquote
 from subprocess import check_output, CalledProcessError
@@ -24,7 +24,7 @@ def generate_password(size=9):
 
 
 def print_to_console(value):
-    value = force_text(value)
+    value = force_str(value)
     print(smart_bytes(value, getattr(sys.stdout, 'encoding', None) or 'UTF-8', errors='replace'))
 
 
@@ -35,8 +35,8 @@ def execute(command, *params):
     try:
         output = check_output(command, shell=True)
     except CalledProcessError as e:
-        return force_text(e.output)
-    return force_text(output, output_encoding)
+        return force_str(e.output)
+    return force_str(output, output_encoding)
 
 
 def get_random_user_agent():
@@ -71,7 +71,7 @@ def download_ftp(path, encoding='utf-8'):
     ftp = FTP(domain)
     ftp.login(login, passwd)
     out = BytesIO()
-    filename = force_text(filename, encoding)
+    filename = force_str(filename, encoding)
     cmd = 'RETR %s' % filename
     ftp.retrbinary(cmd, out.write)
     ftp.close()
@@ -80,7 +80,7 @@ def download_ftp(path, encoding='utf-8'):
 
 def smart_download(url, **kwargs):
     filename_encoding = kwargs.get('filename_encoding', 'utf-8')
-    url = force_text(url)
+    url = force_str(url)
     result = Struct(data='', content_type='', error='', file_name='', ext='')
     force_extension = kwargs.get('force_extension', '')
     # detect extension by URL

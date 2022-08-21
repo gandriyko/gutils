@@ -2,14 +2,15 @@ from django_jinja import library
 from itertools import groupby
 import jinja2
 from django.utils.html import escape, escapejs
-from django.utils.encoding import force_text, force_bytes
+from django.utils.encoding import force_str, force_bytes
 from django.conf import settings
 from django.utils import formats
 from django.utils.dateformat import format
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
-from django.utils.translation import ugettext as _, pgettext as _pgettext
+from django.utils.translation import gettext as _, pgettext as _pgettext
 from django.template.loader import render_to_string
+from markupsafe import Markup
 from six import string_types
 from gutils import to_int, get_name
 from gutils.strings import trim as _trim, linebreaksbr as _linebreaksbr, upper_first
@@ -27,17 +28,14 @@ import datetime
 import six
 import os
 import re
-try:
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
+from urllib.parse import quote
 
 
 @library.filter
 def default(value, arg=''):
     if value:
-        return force_text(value)
-    return jinja2.Markup(arg)
+        return force_str(value)
+    return Markup(arg)
 
 
 @library.global_function
@@ -92,14 +90,14 @@ def _static_register(context, data, media='all'):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 def static_register(context, path, media='all'):
     _static_register(context, path, media)
     return ''
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def static_render(context):
     result = []
@@ -221,7 +219,7 @@ def hide(value, hide=True):
     if not hide:
         return value
     if not isinstance(value, string_types):
-        value = force_text(value)
+        value = force_str(value)
     return '*' * len(value)
 
 
@@ -253,7 +251,7 @@ def site_url():
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 def absolute_url(context, url, *args):
     if '/' in url:
         return '%s://%s%s' % (context['scheme'], settings.DOMAIN, url)
@@ -373,7 +371,7 @@ def field_value(obj, field_name):
 
 @library.filter
 def human_number(value):
-    orig = force_text(value)
+    orig = force_str(value)
     new = re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', orig)
     if orig == new:
         return new
@@ -392,7 +390,7 @@ def escape_url(value):
 def escape_csv(value):
     if not value:
         return ''
-    value = force_text(value)
+    value = force_str(value)
     if value.startswith('='):
         value = re.sub(r'^=+', '', value)
     value = re.sub(r'[\x00-\x19]', '', value)
@@ -404,12 +402,12 @@ def escape_csv(value):
 def as_decimal(value):
     if not value:
         return ''
-    value = force_text(value)
+    value = force_str(value)
     return value.replace('.', ',')
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def unsafe(context, value):
     if value is None:
@@ -600,14 +598,14 @@ def mailto(emails):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def input_next(context):
     return '<input type="hidden" name="next" value="%s" />' % escape(context.get('next_url', ''))
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def if_url_name(context, value, *args):
     url_name = context.get('url_name', '')
@@ -658,14 +656,14 @@ def _paginator(context, page):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @library.render_with('gutils/admin_paginator.html')
 def admin_paginator(context, page):
     return _paginator(context, page)
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @library.render_with('gutils/paginator.html')
 def get_paginator(context, page):
     return _paginator(context, page)
@@ -673,7 +671,7 @@ def get_paginator(context, page):
 
 @library.global_function
 @library.render_with('gutils/form_show.html')
-@jinja2.contextfunction
+@jinja2.pass_context
 def form_show(context, form=None, formset=None, **kwargs):
     data = kwargs.copy()
     data['form'] = form
@@ -701,7 +699,7 @@ def form_show(context, form=None, formset=None, **kwargs):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def admin_form_show(context, form=None, formset=None, **kwargs):
     data = kwargs.copy()
@@ -739,7 +737,7 @@ def admin_form_show(context, form=None, formset=None, **kwargs):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def admin_form_close_button(context):
     if context.get('is_popup'):
@@ -751,13 +749,13 @@ def admin_form_close_button(context):
 
 @library.global_function
 @library.render_with('gutils/admin_filter_show.html')
-@jinja2.contextfunction
+@jinja2.pass_context
 def admin_filter_show(context, form, **kwargs):
     return {'form': form, 'path': context.get('path', '')}
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def admin_table_sort(context, sort, name, title=''):
     if not sort:
@@ -823,7 +821,7 @@ def _admin_item_change(item, fieldname, title='', icons=None, confirm='', user=N
                (icon, _('Do not have permission to change'))
     if confirm:
         confirm = ' onclick="return confirm(\'%s\')";' % escapejs(confirm)
-        confirm = force_text(confirm)
+        confirm = force_str(confirm)
     else:
         confirm = ''
     if not url:
@@ -832,7 +830,7 @@ def _admin_item_change(item, fieldname, title='', icons=None, confirm='', user=N
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def admin_item_change(context, item, fieldname, title='', icon=None, confirm=False, url=None):
     '''
@@ -842,7 +840,7 @@ def admin_item_change(context, item, fieldname, title='', icon=None, confirm=Fal
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def item_delete(context, item, title='', confirm=''):
     app_name = item._meta.app_label
@@ -870,7 +868,7 @@ def admin_bool_icon(value, icons=None, title=''):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 @safe
 def generate_get(context, **kwargs):
     query_dict = context['query_dict'].copy()
@@ -889,7 +887,7 @@ def field_class(field, lower=True):
 
 
 @library.global_function
-@jinja2.contextfunction
+@jinja2.pass_context
 def money_words(context, value, currency_name='UAH'):
     language = context['LANGUAGE_CODE']
     return numbers.get_money(language, currency_name).make(value)

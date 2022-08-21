@@ -18,9 +18,9 @@ from django.utils.http import urlquote
 from django.utils import formats
 
 from django.utils.encoding import DjangoUnicodeDecodeError
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.functional import lazy
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 try:
     from urlparse import urlparse
@@ -28,9 +28,6 @@ except ImportError:
     from urllib.parse import urlparse
 
 from gutils.strings import upper_first
-
-
-default_app_config = 'gutils.apps.GutilsConfig'
 
 
 class Struct:
@@ -189,7 +186,7 @@ def to_dict(obj, fields, fields_rules=None):
         elif isinstance(v, Decimal):
             v = float(v)
         # if not isinstance(v, str) and not isinstance(v, (bool, int)):
-        #    v = force_text(v)
+        #    v = force_str(v)
         result[_field] = v
     return result
 
@@ -253,8 +250,8 @@ def instance_as_dict(instance, verbose_name=True):
 def instance_as_json(instance, max_length=None, verbose_name=True):
     result = OrderedDict()
     for k, v in instance_as_dict(instance, verbose_name).items():
-        k = force_text(k)
-        v = force_text(v)
+        k = force_str(k)
+        v = force_str(v)
         if max_length:
             v = v[:max_length]
         result[k] = v
@@ -346,13 +343,13 @@ def content_disposition(file_name):
 
 def is_bot(request):
     try:
-        ua = force_text(request.META.get('HTTP_USER_AGENT', '').lower())
+        ua = force_str(request.META.get('HTTP_USER_AGENT', '').lower())
     except DjangoUnicodeDecodeError:
         ua = None
     if not ua:
         return True
     ua = re.sub(r'[^\w\- \\/\.\,]', '', ua)
-    ua = force_text(ua).lower()
+    ua = force_str(ua).lower()
     keywords = ("bot", "crawler", "spider", "80legs", "baidu", "yahoo! slurp", "ia_archiver",
                 "mediapartners-google",
                 "lwp-trivial", "nederland.zoek", "ahoy", "anthill", "appie", "arale", "araneo", "ariadne",

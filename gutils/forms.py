@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import strip_tags
 from six import string_types
 from datetime import datetime
@@ -27,7 +27,7 @@ def get_form_errors(form):
         return []
     errors = [_('Make sure that all fields are filled in correctly.')]
     for key, error in form.errors.items():
-        name = force_text(form.fields[key].label)
+        name = force_str(form.fields[key].label)
         error = error.as_text().replace('*', '')
         errors.append('%s:%s' % (name, error))
     return errors
@@ -201,7 +201,7 @@ class DateRangeField(forms.DateField):
 
     def to_python(self, value):
         separator = formats.get_format('DATE_SEPARATOR')
-        value = force_text(value, strings_only=True)
+        value = force_str(value, strings_only=True)
         if not value or value.count(separator) != 1:
             return
         try:

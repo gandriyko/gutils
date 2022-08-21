@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import widgets
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 
 class AjaxSelectMixin(object):
@@ -91,7 +91,7 @@ class AjaxModelMixin(object):
             try:
                 return self.coerce(value)
             except self.queryset.model.DoesNotExist as e:
-                raise forms.ValidationError(force_text(e))
+                raise forms.ValidationError(force_str(e))
         return value
 
 
@@ -125,7 +125,7 @@ class AjaxMultipleModelField(AjaxModelMixin, forms.MultipleChoiceField):
         if value:
             result = self.queryset.filter(pk__in=value)
             qs = self.queryset.filter(pk__in=value)
-            self.widget.value_text = {v.id: force_text(v) for v in qs}
+            self.widget.value_text = {v.id: force_str(v) for v in qs}
         else:
             result = None
             self.widget.value_text = None

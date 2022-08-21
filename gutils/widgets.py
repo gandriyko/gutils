@@ -3,7 +3,7 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.forms.utils import flatatt
 from django.utils.html import escape, conditional_escape
 from time import strftime
@@ -144,11 +144,11 @@ class SelectColored(forms.Select):
         return mark_safe('\n'.join(output))
 
     def render_option(self, selected_choices, option_value, option_label):
-        option_value = force_text(option_value)
+        option_value = force_str(option_value)
         selected_html = (option_value in selected_choices) and ' selected="selected"' or ''
         return '<option class="%s-%s" value="%s"%s>%s</option>' % (
             self.attrs.get('class'), escape(option_value), escape(option_value), selected_html,
-            conditional_escape(force_text(option_label)))
+            conditional_escape(force_str(option_label)))
 
 
 class SelectMultiple(forms.SelectMultiple):
@@ -264,4 +264,4 @@ $(function() {
         return output % {'name': name,
                          'images': images,
                          'button_class': self.button_class,
-                         'button_text': force_text(self.button_text)}
+                         'button_text': force_str(self.button_text)}

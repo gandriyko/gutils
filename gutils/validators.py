@@ -1,6 +1,6 @@
 from django import forms
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.encoding import force_str
+from django.utils.translation import gettext as _
 from django.core.mail import mail_admins
 from django.conf import settings
 from gutils.strings import clean_phone
@@ -32,7 +32,7 @@ def validate_name(name, min_length=0):
     name = re.sub(r'\s+', ' ', name).strip()
     if len(name) < min_length:
         raise forms.ValidationError(_('This field is too short'))
-    if re.search(r'[^\w\-]', force_text(name), re.U):
+    if re.search(r'[^\w\-]', force_str(name), re.U):
         raise forms.ValidationError(_('This field must contain only letters'))
     return name
 

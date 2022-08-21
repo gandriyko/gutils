@@ -3,7 +3,7 @@ from six import string_types
 from django.urls import reverse
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.html import escape, escapejs, strip_tags
-from django.utils.encoding import smart_text, force_text
+from django.utils.encoding import smart_text, force_str
 from django.utils.translation import gettext_lazy as _
 from django.template import engines
 from django.utils import formats
@@ -222,7 +222,7 @@ class DecimalColumn(Column):
         if not value and self.default is not None:
             return self.default
         v = value = to_decimal(value, self.decimal_places)
-        value_as_text = force_text(value)
+        value_as_text = force_str(value)
         if self.colorize:
             if value >= 0:
                 self.color = 'green'
@@ -452,7 +452,7 @@ class UrlColumn(TipMixin, Column):
                 value = ''
             if self.non_empty and value == '':
                 value = _('None')
-            value = force_text(value)
+            value = force_str(value)
         attrs['href'] = self.get_url(item)
         tip_url = self.get_tip_url(item)
         if tip_url:
@@ -503,9 +503,9 @@ class ImageColumn(Column):
             values = [values]
         for value in values:
             if self.sub_field:
-                value = force_text(getattr(value, self.sub_field))
+                value = force_str(getattr(value, self.sub_field))
             else:
-                value = force_text(value)
+                value = force_str(value)
             path = os.path.join(settings.MEDIA_ROOT, smart_text(value)).replace('\\', '/')
             exists = True
             if not os.path.exists(path) or not value:
