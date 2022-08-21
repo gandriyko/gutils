@@ -1,6 +1,5 @@
 from django.utils.encoding import force_str, smart_bytes, force_bytes
 from unidecode import unidecode
-from six import string_types
 import hashlib
 import sys
 
@@ -57,7 +56,7 @@ def _args_to_unicode(args, kwargs):
         if isinstance(value, (list, tuple)):
             res = [force_str(v) for v in value]
             return "[%s]" % ",".join(res)
-        if isinstance(value, string_types):
+        if isinstance(value, str):
             return unidecode(force_str(value))
         return str(value)
 

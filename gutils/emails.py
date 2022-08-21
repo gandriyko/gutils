@@ -2,7 +2,6 @@ import base64
 import email
 import os
 import re
-import six
 
 from email.header import decode_header
 from gutils import Struct
@@ -32,10 +31,7 @@ def get_email_attachment(**kwargs):
     mail_ids = list(reversed(mail_ids))
     for mail_id in mail_ids:
         res, email_data = mail_server.fetch(mail_id, '(BODY.PEEK[])')
-        if six.PY2:
-            msg = email.message_from_string(email_data[0][1])
-        else:
-            msg = email.message_from_bytes(email_data[0][1])
+        msg = email.message_from_bytes(email_data[0][1])
         match = re.search(r'[\w\.-]+@[\w\.-]+', msg['from'])
         if match:
             sender = match.group(0)

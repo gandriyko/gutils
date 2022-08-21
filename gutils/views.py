@@ -25,7 +25,6 @@ from django.utils import formats
 from django.utils.html import escape
 from django.http import Http404
 from django.core.mail import mail_admins
-from six import string_types
 from gutils.forms import ModelForm
 from gutils.querysets import get_realated_items
 from gutils import to_int, get_attribute, get_name
@@ -372,14 +371,14 @@ class ItemListView(TitleMixin, FormMixin, ListView):
                 if self.empty_query:
                     return queryset.model.objects.none()
         if self.select_related:
-            if isinstance(self.select_related, string_types):
+            if isinstance(self.select_related, str):
                 queryset = queryset.select_related(self.select_related)
             elif hasattr(self.select_related, '__iter__'):
                 queryset = queryset.select_related(*self.select_related)
             else:
                 queryset = queryset.select_related()
         if self.prefetch_related:
-            if isinstance(self.prefetch_related, string_types):
+            if isinstance(self.prefetch_related, str):
                 queryset = queryset.prefetch_related(self.prefetch_related)
             elif hasattr(self.prefetch_related, '__iter__'):
                 queryset = queryset.prefetch_related(*self.prefetch_related)
@@ -727,7 +726,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
                 if self.empty_query:
                     return queryset.model.objects.none()
         if self.select_related:
-            if isinstance(self.select_related, string_types):
+            if isinstance(self.select_related, str):
                 queryset = queryset.select_related(self.select_related)
             elif hasattr(self.select_related, '__iter__'):
                 queryset = queryset.select_related(*self.select_related)
@@ -736,7 +735,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
         if self.distinct is not None:
             queryset = queryset.distinct()
         if self.prefetch_related:
-            if isinstance(self.prefetch_related, string_types):
+            if isinstance(self.prefetch_related, str):
                 queryset = queryset.prefetch_related(self.prefetch_related)
             elif hasattr(self.prefetch_related, '__iter__'):
                 queryset = queryset.prefetch_related(*self.prefetch_related)
@@ -750,7 +749,7 @@ class AdminListView(PermissionMixin, TitleMixin, ListLinkMixin, FormMixin, ListV
             self.sort = None
             default_sort = self.get_default_sort()
             if default_sort:
-                if isinstance(default_sort, string_types):
+                if isinstance(default_sort, str):
                     queryset = queryset.order_by(default_sort)
                 else:
                     queryset = queryset.order_by(*default_sort)

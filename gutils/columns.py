@@ -1,5 +1,4 @@
 from django.conf import settings
-from six import string_types
 from django.urls import reverse
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.html import escape, escapejs, strip_tags
@@ -126,7 +125,7 @@ class Column(object):
                 self.safe = True
             tooltip = self.get_tooltip_value(item)
             if tooltip:
-                if isinstance(value, string_types):
+                if isinstance(value, str):
                     value = strip_tags(value)
                 return '<span title="%s">%s</span>' % (tooltip, value)
             return value
@@ -444,7 +443,7 @@ class UrlColumn(TipMixin, Column):
             value = self.text
         else:
             value = self.get_value(item)
-            if isinstance(value, string_types):
+            if isinstance(value, str):
                 value = strip_tags(value)
             if isinstance(value, datetime.datetime) or isinstance(value, datetime.date):
                 value = date(value)

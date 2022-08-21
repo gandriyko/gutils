@@ -1,7 +1,6 @@
 from django.utils.encoding import force_str
 from django.utils import formats
 from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN, ROUND_UP, InvalidOperation, Context
-from six import string_types
 import re
 
 
@@ -13,7 +12,7 @@ def to_decimal(value, round=-1, rounding=ROUND_HALF_EVEN):
             result = value
         elif isinstance(value, float):
             result = Decimal("%.15g" % value)
-        elif isinstance(value, string_types):
+        elif isinstance(value, str):
             try:
                 value = re.sub(r'[^\d\.\-]', '', value.replace(',', '.'))
                 result = Decimal(value)

@@ -11,7 +11,6 @@ from django.urls import reverse
 from django.utils.translation import gettext as _, pgettext as _pgettext
 from django.template.loader import render_to_string
 from markupsafe import Markup
-from six import string_types
 from gutils import to_int, get_name
 from gutils.strings import trim as _trim, linebreaksbr as _linebreaksbr, upper_first
 from gutils.images import thumbnail, text_thumbnails
@@ -25,7 +24,6 @@ from django.forms.widgets import Media
 from decimal import Decimal
 import calendar
 import datetime
-import six
 import os
 import re
 from urllib.parse import quote
@@ -218,7 +216,7 @@ def number_format(value, decimal_pos=0):
 def hide(value, hide=True):
     if not hide:
         return value
-    if not isinstance(value, string_types):
+    if not isinstance(value, str):
         value = force_str(value)
     return '*' * len(value)
 
@@ -414,7 +412,7 @@ def unsafe(context, value):
         return ''
     if not context.get('mark_unsafe', False):
         return value
-    if isinstance(value, six.integer_types):
+    if isinstance(value, int):
         return 'integer:%s' % value
     if isinstance(value, (float, Decimal)):
         return 'decimal:%s' % value

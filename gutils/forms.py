@@ -9,7 +9,6 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.utils.encoding import force_str
 from django.utils.html import strip_tags
-from six import string_types
 from datetime import datetime
 from modeltranslation.translator import translator
 from modeltranslation.translator import NotRegistered
@@ -18,7 +17,6 @@ from gutils.dates import date_filter
 from gutils import widgets
 from gutils.strings import clean_number, clean_phone, clean_string
 from gutils.validators import validate_phone
-import six
 import re
 
 
@@ -47,7 +45,7 @@ class Form(forms.Form, forms.BaseForm):
     def clean(self):
         cleaned_data = super(Form, self).clean()
         for (key, value) in cleaned_data.items():
-            if value and isinstance(value, string_types):
+            if value and isinstance(value, str):
                 if self.strip:
                     cleaned_data[key] = strip_tags(clean_string(value))
                 cleaned_data[key] = clean_string(cleaned_data[key])
@@ -70,7 +68,7 @@ class ModelForm(forms.ModelForm, BaseForm):
     def clean(self):
         cleaned_data = super(ModelForm, self).clean()
         for (key, value) in cleaned_data.items():
-            if value and isinstance(value, string_types):
+            if value and isinstance(value, str):
                 if self.strip:
                     cleaned_data[key] = strip_tags(value)
                 cleaned_data[key] = clean_string(cleaned_data[key])
@@ -141,7 +139,7 @@ class FilterForm(forms.Form, BaseForm):
             if not rule:
                 rule = key
             value = self.cleaned_data.get(key)
-            if isinstance(value, six.string_types):
+            if isinstance(value, str):
                 value = value.strip()
             if value in (None, '', []):
                 continue
@@ -185,7 +183,7 @@ class DateRangeField(forms.DateField):
     widget = widgets.DateRangeInput
 
     def prepare_value(self, value):
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             return value
         elif isinstance(value, list):
             if value[0]:
@@ -321,7 +319,7 @@ class DecimalField(forms.DecimalField):
     def to_python(self, value):
         if value is None:
             return value
-        if isinstance(value, string_types):
+        if isinstance(value, str):
             value = value.replace(',', '.')
             # value = re.sub(r'[^\d\.\-]', '', value)
         try:

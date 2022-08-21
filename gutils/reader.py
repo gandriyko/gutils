@@ -9,7 +9,6 @@ import xlrd
 import re
 import csv
 import os
-import six
 import copy
 from _csv import Error as CSVError
 
@@ -229,18 +228,9 @@ class CSVReader(object):
         if quoting == csv.QUOTE_NONE:
             quotechar = None
         else:
-            if six.PY2:
-                quotechar = b'"'
-            else:
-                quotechar = '"'
-        if six.PY3:
-            delimiter = force_str(delimiter)
-        else:
-            delimiter = force_bytes(delimiter)
-        if six.PY2:
-            f = open(filename, 'rU')
-        else:
-            f = open(filename, 'rU', encoding=self.encoding, errors='replace')
+            quotechar = '"'
+        delimiter = force_bytes(delimiter)
+        f = open(filename, 'rU', encoding=self.encoding, errors='replace')
         self.csv_file = csv.reader(f,
                                    quoting=quoting,
                                    delimiter=delimiter,
@@ -277,7 +267,7 @@ class DBFReader(object):
         for row in self.table:
             result = []
             for r in row:
-                if isinstance(r, six.string_types):
+                if isinstance(r, str):
                     result.append(r.strip())
                 else:
                     result.append(r)
