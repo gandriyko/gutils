@@ -106,7 +106,7 @@ class FilterForm(forms.Form, BaseForm):
     def clean(self):
         cleaned_data = super(FilterForm, self).clean()
         for (key, value) in cleaned_data.items():
-            if value and isinstance(value, string_types):
+            if value and isinstance(value, str):
                 value = clean_string(value)
                 cleaned_data[key] = value.replace('+', ' ')
                 cleaned_data[key] = value.replace('%2B', '+')

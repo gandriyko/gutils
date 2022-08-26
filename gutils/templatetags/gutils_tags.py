@@ -340,7 +340,7 @@ def urlencode(**kwargs):
 
 @library.global_function
 def is_string(value):
-    return isinstance(value, string_types)
+    return isinstance(value, str)
 
 
 @library.filter
