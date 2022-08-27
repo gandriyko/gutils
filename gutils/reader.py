@@ -1,5 +1,5 @@
 from django.utils.translation import gettext as _
-from django.utils.encoding import force_str, force_bytes
+from django.utils.encoding import force_str
 from openpyxl.reader.excel import load_workbook
 from django.utils.functional import cached_property
 from gutils import Struct
@@ -46,7 +46,7 @@ def detect_delimiter(raw_value):
     for char in delimiters.keys():
         delimiters[char] = raw_value.count(char)
     res = sorted(delimiters, key=delimiters.get, reverse=True)
-    return force_bytes(res[0])
+    return force_str(res[0])
 
 
 def detect_quoting(raw_value):
@@ -229,7 +229,7 @@ class CSVReader(object):
             quotechar = None
         else:
             quotechar = '"'
-        delimiter = force_bytes(delimiter)
+        delimiter = force_str(delimiter)
         f = open(filename, 'rU', encoding=self.encoding, errors='replace')
         self.csv_file = csv.reader(f,
                                    quoting=quoting,
