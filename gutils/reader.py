@@ -1,3 +1,5 @@
+import shutil
+
 from django.utils.translation import gettext as _
 from django.utils.encoding import force_str
 from openpyxl.reader.excel import load_workbook
@@ -10,6 +12,7 @@ import re
 import csv
 import os
 import copy
+import tempfile
 from _csv import Error as CSVError
 
 
@@ -135,9 +138,32 @@ class ExcelNewReader(object):
         if not os.path.isfile(filename):
             raise NameError("%s is not a valid filename" % filename)
         self.filename = filename
-        self.book = load_workbook(filename, read_only=True, data_only=True)
+        try:
+            self.book = load_workbook(filename, read_only=True, data_only=True)
+        except KeyError:  # try to fix: "There is no item named 'xl/sharedStrings.xml' in the archive"
+            self._patch_broken_file()
+            self.book = load_workbook(filename, read_only=True, data_only=True)
         self.sheet = self.book.active
         self.encoding = 'utf8'
+
+    def _patch_broken_file(self):
+        from zipfile import ZipFile
+        tmpdir = os.path.join(tempfile.gettempdir(), 'patch_excel')
+
+        if os.path.exists(tmpdir):
+            shutil.rmtree(tmpdir)
+        os.makedirs(tmpdir)
+
+        with ZipFile(self.filename) as _file:
+            _file.extractall(tmpdir)
+        wrong_file_path = os.path.join(tmpdir, 'xl', 'SharedStrings.xml')
+        correct_file_path = os.path.join(tmpdir, 'xl', 'sharedStrings.xml')
+        os.rename(wrong_file_path, correct_file_path)
+        base_file_name = os.path.splitext(os.path.basename(self.filename))[0]
+        name = shutil.make_archive(os.path.join(tempfile.gettempdir(), base_file_name), 'zip', tmpdir)
+        shutil.rmtree(tmpdir)
+        os.remove(self.filename)
+        shutil.move(name, self.filename)
 
     def _correct(self, value):
         if value is None:
