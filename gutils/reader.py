@@ -80,9 +80,9 @@ class ExcelReader(object):
         self.book = None
         self.encoding = kwargs.get('encoding') or 'utf8'
         try:
-            self.book = xlrd.open_workbook(filename, encoding_override=self.encoding)
+            self.book = xlrd.open_workbook(filename, encoding_override=self.encoding, ignore_workbook_corruption=True)
         except Exception:
-            self.book = xlrd.open_workbook(filename, encoding_override='cp1251')
+            self.book = xlrd.open_workbook(filename, encoding_override='cp1251', ignore_workbook_corruption=True)
             self.sheet = self.book.sheet_by_index(0)
 
     def __formatrow__(self, types, values):
