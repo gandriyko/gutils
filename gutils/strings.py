@@ -168,7 +168,7 @@ def format_phone(phone):
 
 
 def plain_text(text, n=0):
-    result = strip_tags(text).replace('&nbsp;', ' ').replace('"', '').strip()
+    result = strip_tags(text).replace('&nbsp;', ' ').replace('"', '').replace('<', '').replace('>', '').strip()
     result = re.sub(r'\s+', ' ', result)
     if n and len(result) > n:
         return '%s...' % result[:n]

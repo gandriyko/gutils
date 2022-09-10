@@ -119,14 +119,14 @@ class Column(object):
         if value is not None:
             value = smart_text(value)
             if self.trim and len(value) > self.trim:
-                value = strip_tags(value)
+                value = strip_tags(value).replace('<', '').replace('>', '')
                 value = '<span title="%s">%s ' \
                         '<i class="fa fa-angle-double-right red"></i></span>' % (value, value[:self.trim])
                 self.safe = True
             tooltip = self.get_tooltip_value(item)
             if tooltip:
                 if isinstance(value, str):
-                    value = strip_tags(value)
+                    value = strip_tags(value).replace('<', '').replace('>', '')
                 return '<span title="%s">%s</span>' % (tooltip, value)
             return value
         return ''
@@ -385,7 +385,7 @@ class TextColumn(Column):
     def display(self, item):
         value = self.get_value(item)
         if self.strip_tags:
-            value = strip_tags(value).replace('&nbsp;', ' ').strip()
+            value = strip_tags(value).replace('&nbsp;', ' ').replace('<', '').replace('>', '').strip()
         if self.trim:
             value = value[:self.trim]
         return value
@@ -444,7 +444,7 @@ class UrlColumn(TipMixin, Column):
         else:
             value = self.get_value(item)
             if isinstance(value, str):
-                value = strip_tags(value)
+                value = strip_tags(value).replace('<', '').replace('>', '')
             if isinstance(value, datetime.datetime) or isinstance(value, datetime.date):
                 value = date(value)
             if value is None:

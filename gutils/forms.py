@@ -47,7 +47,7 @@ class Form(forms.Form, forms.BaseForm):
         for (key, value) in cleaned_data.items():
             if value and isinstance(value, str):
                 if self.strip:
-                    cleaned_data[key] = strip_tags(clean_string(value))
+                    cleaned_data[key] = strip_tags(clean_string(value)).replace('<', '').replace('>', '')
                 cleaned_data[key] = clean_string(cleaned_data[key])
         return cleaned_data
 
@@ -70,7 +70,7 @@ class ModelForm(forms.ModelForm, BaseForm):
         for (key, value) in cleaned_data.items():
             if value and isinstance(value, str):
                 if self.strip:
-                    cleaned_data[key] = strip_tags(value)
+                    cleaned_data[key] = strip_tags(value).replace('<', '').replace('>', '')
                 cleaned_data[key] = clean_string(cleaned_data[key])
         return cleaned_data
 
