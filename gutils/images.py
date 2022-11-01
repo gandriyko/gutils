@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.utils.encoding import force_str
+
+from gutils.files import file_md5sum
 from gutils.strings import get_slug
 from gutils import to_int, base36encode
 import os
@@ -8,12 +10,16 @@ import glob
 import re
 import uuid
 import shutil
+import logging
 
 try:
     from PIL import Image, ImageOps
 except ImportError:
     import Image
     import ImageOps
+
+
+logger = logging.getLogger('gutils')
 
 
 def upload_to(field, path, func=None):
@@ -206,6 +212,8 @@ def resize(source, destination, width, height, crop=False, watermark=None, quali
         img.save(destination, quality=quality)
     else:
         img.save(destination)
+    md5sum = file_md5sum(source)
+    logger.debug(f'resize {source} [{md5sum}] -> {destination}')
     return destination
 
 
