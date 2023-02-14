@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='gutils',
-    version='0.6.1',
+    version='0.6.2',
     description='Python Utility Libraries for "GShop" web-engine',
     author='Andrew G',
     author_email='gandriyko@gmail.com',
