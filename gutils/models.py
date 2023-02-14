@@ -135,30 +135,19 @@ class UniqueBooleanField(models.BooleanField):
         return getattr(model_instance, self.attname)
 
 
-class ChangedModel(models.Model):
-
-    class Meta:
-        abstract = True
+class ChangedModelMixin(object):
 
     CHANGED_FIELDS = []
 
     def has_change(self, field):
         return True
 
-    def __init__(self, *args, **kwargs):
-        super(ChangedModel, self).__init__(*args, **kwargs)
-        self.__original_values = {}
-        for field in self.CHANGED_FIELDS:
-            self.__original_values[field] = getattr(self, field, None)
-
-    def save(self, *args, **kwargs):
-        if not self.is_changed:
+    def update_changed(self, old_instance):
+        if old_instance and not self.is_changed:  # noqa
             for field in self.CHANGED_FIELDS:
-                if self.__original_values[field] != getattr(self, field, None) and self.has_change(field):
+                if getattr(self, field, None) != getattr(old_instance, field, None) and self.has_change(field):
                     self.is_changed = True
                     break
-
-        super(ChangedModel, self).save(*args, **kwargs)
 
 
 class AdminViewConfModel(models.Model):
