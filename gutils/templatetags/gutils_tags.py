@@ -889,3 +889,8 @@ def field_class(field, lower=True):
 def money_words(context, value, currency_name='UAH'):
     language = context['LANGUAGE_CODE']
     return numbers.get_money(language, currency_name).make(value)
+
+
+@library.global_function
+def form_extra_fields(form):
+    return getattr(form, 'extra_fields', None) or getattr(getattr(form, 'Meta', None), 'extra_fields', None) or []

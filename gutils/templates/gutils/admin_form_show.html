@@ -42,7 +42,7 @@
 {% if form %}
 
 {% for field in form.visible_fields() %}
-{% if not form.extra_fields or field.name not in form.extra_fields %}
+{% if field.name not in form_extra_fields(form) %}
 <tr{% if field.css_classes() %} class="{{ field.css_classes() }}"{% endif %}>
     <th>{{ field.label_tag() }}</th>
     <td>{{ field.errors }}{{ field }}{% if field.help_text %}<br /><span class="helptext">{{ field.help_text }}</span>{% endif %}</td>
@@ -51,12 +51,12 @@
 {% endfor %}
 
 
-{% if form.extra_fields %}
+{% if form_extra_fields(form) %}
 <tr>
     <th colspan="2"><button class="btn" type="button" onclick="$('.extra-field').toggle();"><i class="fa fa-caret-right"></i> {{ _('Additional settings') }}</button></th>
 </tr>
 {% for field in form %}
-{% if field.name in form.extra_fields %}
+{% if field.name in form_extra_fields(form) %}
 <tr class="extra-field{% if field.css_classes() %} {{ field.css_classes() }}{% endif %}">
     <th>{{ field.label_tag() }}</th>
     <td>{{ field.errors }}{{ field }}{% if field.help_text %}<br /><span class="helptext">{{ field.help_text }}</span>{% endif %}</td>
