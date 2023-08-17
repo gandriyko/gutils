@@ -1,15 +1,6 @@
 from setuptools import setup
+import pkg_resources
 
+pkg_resources.require("setuptools>=39.2")
 
-setup(
-    name='gutils',
-    version='0.6.3',
-    description='Python Utility Libraries for "GShop" web-engine',
-    author='Andrew G',
-    author_email='gandriyko@gmail.com',
-    url="https://github.com/gandriyko/gutils",
-    packages=['gutils'],
-    include_package_data=True,
-    zip_safe=False,
-    license="MIT",
-)
+setup()
