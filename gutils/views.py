@@ -72,9 +72,7 @@ class DuplicateProtectionMixin(object):
             if response == '':
                 secure_random = random.SystemRandom()
                 time.sleep(secure_random.uniform(0.1, 0.6))
-                if not settings.DEBUG:
-                    mail_admins('duplication error', 'Path: %s' % request.get_full_path())
-                return HttpResponse('Dublication error')
+                return HttpResponse('Duplication error')
             return pickle.loads(force_bytes(response))
         cache.set(key, '', 2)
         response = super(DuplicateProtectionMixin, self).post(request, *args, **kwargs)

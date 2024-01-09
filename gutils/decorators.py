@@ -50,9 +50,7 @@ def duplicate_protection(view_name):
         if result is not None:
             if result == '':
                 time.sleep(1)
-                result = cache.get(key)
-                mail_admins('duplication error', 'Path: %s' % request.get_full_path())
-                return HttpResponse('Dublication error')
+                return HttpResponse('Duplication error')
             try:
                 return pickle.loads(str(result))
             except Exception:
