@@ -19,7 +19,6 @@ from gutils.images import save_image, delete_image
 from gutils.views import PermissionMixin, AdminFormView
 from gutils.strings import get_slug
 from gutils.signals import post_delete, post_change
-from gutils.reader import Reader
 import random
 import shutil
 import logging
@@ -136,6 +135,7 @@ class AdminFileImportView(AdminFormView):
         context = super(AdminFileImportView, self).get_context_data(*args, **kwargs)
         self.check_file()
         if self.filename:
+            from gutils.reader import Reader
             context['preview'] = Reader(self.filename).preview()
         return context
 
