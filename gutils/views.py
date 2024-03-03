@@ -28,6 +28,7 @@ from django.core.mail import mail_admins
 from gutils.forms import ModelForm
 from gutils.querysets import get_realated_items
 from gutils import to_int, get_attribute, get_name
+from gutils.request import is_ajax
 from gutils.strings import upper_first
 from gutils.users import is_superuser, is_user
 from gutils.shortcuts import get_referer, close_view
@@ -55,7 +56,7 @@ class LoggedUserMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         if not is_user(request.user):
-            if request.is_ajax():
+            if is_ajax(request):
                 raise PermissionDenied()
             return redirect('%s?next=%s' % (self.get_login_url(), request.get_full_path()))
         return super(LoggedUserMixin, self).dispatch(request, *args, **kwargs)
@@ -125,7 +126,7 @@ class PermissionMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.check_perms():
-            if request.is_ajax():
+            if is_ajax(request):
                 raise PermissionDenied()
             url = self.get_admin_login_url()
             if url is False:
