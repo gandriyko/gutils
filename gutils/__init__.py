@@ -10,13 +10,11 @@ import unicodedata
 from collections import OrderedDict
 from decimal import Decimal
 from operator import attrgetter
-
+from urllib.parse import quote
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Model
-from django.utils.http import urlquote
 from django.utils import formats
-
 from django.utils.encoding import DjangoUnicodeDecodeError
 from django.utils.encoding import force_str
 from django.utils.functional import lazy
@@ -335,7 +333,7 @@ def content_disposition(file_name):
     ascii_name = unicodedata.normalize('NFKD', file_name).encode('ascii', 'ignore').decode()
     header = 'attachment; filename="{}"'.format(ascii_name)
     if ascii_name != file_name:
-        quoted_name = urlquote(file_name)
+        quoted_name = quote(file_name)
         header += '; filename*=UTF-8\'\'{}'.format(quoted_name)
 
     return header

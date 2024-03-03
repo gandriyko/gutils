@@ -1,6 +1,6 @@
 from django.utils.encoding import force_str, smart_bytes
 from django.core.cache import cache
-from django.utils.http import urlquote
+from urllib.parse import quote
 from subprocess import check_output, CalledProcessError
 from ftplib import FTP
 import re
@@ -136,7 +136,7 @@ def smart_download(url, **kwargs):
 
 
 def clear_template_cache(key, *args):
-    args = hashlib.md5(':'.join([urlquote(arg) for arg in args]))
+    args = hashlib.md5(':'.join([quote(arg) for arg in args]))
     cache_key = 'template.cache.%s.%s' % (key, args.hexdigest())
     cache.delete(cache_key)
 
