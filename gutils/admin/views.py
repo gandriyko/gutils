@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import Http404
 from django.apps import apps
 from django.urls import reverse
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.generic import View, TemplateView
@@ -60,7 +60,7 @@ class ItemChangeView(PermissionMixin, View):
                 obj.save()
             post_change.send(obj.__class__, request=self.request, instance=obj)
         except Exception as e:
-            return response_json({'id': obj.pk, 'value': to_int(value), 'error': smart_text(e)})
+            return response_json({'id': obj.pk, 'value': to_int(value), 'error': smart_str(e)})
         return response_json({'id': obj.pk, 'value': to_int(value)})
 
 
@@ -97,7 +97,7 @@ class ItemDeleteView(PermissionMixin, TemplateView):
         try:
             post_delete.send(self.object.__class__, request=self.request, instance=self.object)
             self.object.delete()
-            messages.info(request, _('Item "%s" deleted.') % smart_text(self.object))
+            messages.info(request, _('Item "%s" deleted.') % smart_str(self.object))
         except ProtectedError as e:
             messages.error(request, _('Impossible delete "%s". This element depended others.') % self.object)
             messages.error(request, repr(e))

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.html import escape, escapejs, strip_tags
-from django.utils.encoding import smart_text, force_str
+from django.utils.encoding import smart_str, force_str
 from django.utils.translation import gettext_lazy as _
 from django.template import engines
 from django.utils import formats
@@ -117,7 +117,7 @@ class Column(object):
         if self.empty and not value:
             return ''
         if value is not None:
-            value = smart_text(value)
+            value = smart_str(value)
             if self.trim and len(value) > self.trim:
                 value = strip_tags(value).replace('<', '').replace('>', '')
                 value = '<span title="%s">%s ' \
@@ -290,8 +290,8 @@ class ManyToManyColumn(Column):
             return
         value = get_attribute(item, field, call=False)
         if self.inner_field:
-            return '<br/>'.join([escape(smart_text(getattr(i, self.inner_field))) for i in value.all()])
-        return '<br/>'.join([escape(smart_text(i)) for i in value.all()])
+            return '<br/>'.join([escape(smart_str(getattr(i, self.inner_field))) for i in value.all()])
+        return '<br/>'.join([escape(smart_str(i)) for i in value.all()])
 
 
 class MultiColumn(Column):
@@ -301,7 +301,7 @@ class MultiColumn(Column):
     def get_value(self, item):
         if not self.fields:
             return ''
-        result = [smart_text(get_attribute(item, f)) for f in self.fields]
+        result = [smart_str(get_attribute(item, f)) for f in self.fields]
         return ', '.join([r for r in result if r])
 
 
@@ -426,7 +426,7 @@ class UrlColumn(TipMixin, Column):
                 return self.tooltip(item)
             else:
                 return self.tooltip
-        return smart_text(self.verbose_name)
+        return smart_str(self.verbose_name)
 
     def display(self, item):
         attrs = dict()
@@ -465,7 +465,7 @@ class UrlColumn(TipMixin, Column):
             attrs['onclick'] = 'return confirm(\'%s\')' % escapejs(self.confirm)
         if self.target:
             attrs['target'] = '_blank'
-        return '<a %s>%s</a>' % (' '.join('%s="%s"' % (k, smart_text(v).strip()) for k, v in attrs.items() if v), value)
+        return '<a %s>%s</a>' % (' '.join('%s="%s"' % (k, smart_str(v).strip()) for k, v in attrs.items() if v), value)
 
 
 class EditColumn(UrlColumn):
@@ -505,7 +505,7 @@ class ImageColumn(Column):
                 value = force_str(getattr(value, self.sub_field))
             else:
                 value = force_str(value)
-            path = os.path.join(settings.MEDIA_ROOT, smart_text(value)).replace('\\', '/')
+            path = os.path.join(settings.MEDIA_ROOT, smart_str(value)).replace('\\', '/')
             exists = True
             if not os.path.exists(path) or not value:
                 result.append('<img src="%s" alt="" />' % thumbnail('no.png', self.size))
