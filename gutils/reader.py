@@ -256,7 +256,7 @@ class CSVReader(object):
         else:
             quotechar = '"'
         delimiter = force_str(delimiter)
-        f = open(filename, 'rU', encoding=self.encoding, errors='replace')
+        f = open(filename, 'r', encoding=self.encoding, errors='replace')
         self.csv_file = csv.reader(f,
                                    quoting=quoting,
                                    delimiter=delimiter,
@@ -267,7 +267,7 @@ class CSVReader(object):
             for row in self.csv_file:
                 yield [force_str(r, encoding=self.encoding, errors="ignore") for r in row]
         except CSVError as e:
-            if str(e) != 'newline inside string':
+            if str(e) not in ('newline inside string', 'line contains NUL'):
                 raise e
 
     @cached_property
