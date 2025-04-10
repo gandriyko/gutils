@@ -326,8 +326,10 @@ def thumbnail(name, params='', replace=False, fake=False, exclude=None):
         filename = os.path.join(settings.MEDIA_ROOT, name).replace('\\', '/')
     if not params:
         return os.path.join(settings.MEDIA_URL, name)
-    basename, format = name.rsplit('.', 1)
-    miniature = ("%s_%s.%s") % (basename, params.replace(' ', ''), format)
+    basename, ext = os.path.splitext(name)
+    if ext.lower() == '.svg':
+        return os.path.join(settings.MEDIA_URL, name)
+    miniature = ("%s_%s%s") % (basename, params.replace(' ', ''), ext)
     miniature_filename = os.path.join(settings.MEDIA_ROOT, 'thumbs', miniature).replace('\\', '/')
     miniature_url = os.path.join(settings.MEDIA_URL, 'thumbs', miniature).replace('\\', '/')
     if fake:
