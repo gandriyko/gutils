@@ -496,6 +496,7 @@ class ImageColumn(Column):
     def display(self, item):
         result = []
         values = self.get_value(item)
+        width = int(self.size.split('x')[0])
         if hasattr(values, 'all'):
             values = values.all()
         else:
@@ -508,15 +509,17 @@ class ImageColumn(Column):
             path = os.path.join(settings.MEDIA_ROOT, smart_str(value)).replace('\\', '/')
             exists = True
             if not os.path.exists(path) or not value:
-                result.append('<img src="%s" alt="" />' % thumbnail('no.png', self.size))
+                result.append('<img src="%s" alt="" width="%s"/>' % (thumbnail('no.png', self.size), width))
                 continue
             thumb = thumbnail(value, self.size)
             image_url = '%s%s' % (settings.MEDIA_URL, value)
             if not self.preview or not exists:
-                result.append('<img src="%s" alt="" />' % thumb)
+                result.append('<img src="%s" alt="" width="%s"/>' % (thumb, width))
             else:
-                result.append('<a href="%s" class="image-box thumbnail" title="%s"><img src="%s" alt="" /></a>' %
-                              (image_url, self.verbose_name, thumb))
+                result.append(
+                    '<a href="%s" class="image-box thumbnail" title="%s"><img src="%s" alt="" width="%s"/></a>' %
+                    (image_url, self.verbose_name, thumb, width)
+                )
         return ''.join(result)
 
 
