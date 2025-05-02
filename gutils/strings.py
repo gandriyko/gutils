@@ -203,3 +203,11 @@ def linebreaksbr(value, use_escape=True):
     if use_escape:
         value = escape(value)
     return value.replace('\r\n', '<br /> ').replace('\n', '<br /> ').replace('\r', '<br />')
+
+
+def get_sorting_key(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+
+        return str(value)
