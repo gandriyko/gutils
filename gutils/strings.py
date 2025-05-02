@@ -207,7 +207,6 @@ def linebreaksbr(value, use_escape=True):
 
 def get_sorting_key(value):
     try:
-        return float(value)
+        return 0, float(value)
     except (ValueError, TypeError):
-
-        return str(value)
+        return 1, str(value)
