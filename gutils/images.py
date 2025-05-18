@@ -12,11 +12,7 @@ import uuid
 import shutil
 import logging
 
-try:
-    from PIL import Image, ImageOps
-except ImportError:
-    import Image
-    import ImageOps
+from PIL import Image, ImageOps, UnidentifiedImageError
 
 
 logger = logging.getLogger('gutils')
@@ -166,7 +162,11 @@ def resize(source, destination, width, height, crop=False, watermark=None, quali
     """
     Resize image. Example: resize(a, b, 100, 100)
     """
-    img = Image.open(source)
+    try:
+        img = Image.open(source)
+    except UnidentifiedImageError:
+        img = Image.open(os.path.join(settings.MEDIA_ROOT, 'no.png'))
+
     width = to_int(width)
     height = to_int(height)
     img_width, img_height = img.size
