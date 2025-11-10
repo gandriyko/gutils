@@ -41,12 +41,12 @@
 <tr>
     <th></th>
     <td class="form-actions">
-        <button class="btn btn-primary" type="submit">{{ submit_text }}</button>
+        <button class="btn btn-primary {{ submit_class }}" type="submit">{{ submit_text }}</button>
         {% if form_buttons %}
         {% for button in form_buttons %}
             {% if button.url %}
                 <a class="btn btn-primary" href="{{ button.url }}">{{ button.caption }}</a>
-            {% else %} 
+            {% else %}
                <button class="btn btn-primary" type="submit" name="{{ button.name }}" value="{{ button.value }}">{{ button.caption }}</button>
             {% endif %}
         {% endfor %}

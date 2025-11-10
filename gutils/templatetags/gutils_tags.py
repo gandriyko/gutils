@@ -688,6 +688,7 @@ def form_show(context, form=None, formset=None, **kwargs):
     data['form_tag'] = kwargs.get('form_tag', True)
     data['autocomplete'] = kwargs.get('autocomplete', True)
     data['submit_text'] = kwargs.get('submit_text') or _('Save')
+    data['submit_class'] = kwargs.get('submit_class') or ''
     data['form_details'] = kwargs.get('form_details')
     data['help_icons'] = kwargs.get('help_icons', {})
     data['back'] = kwargs.get('back', False)
