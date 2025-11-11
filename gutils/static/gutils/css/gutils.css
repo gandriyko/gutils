@@ -487,7 +487,7 @@ header {
 }
 
 .sidebar-user-logout {
-    float: right;    
+    float: right;
 }
 
 .sidebar-user-logout:hover {
@@ -663,7 +663,7 @@ h3 {
 }
 
 td.td-close {
-    line-height: 9px; 
+    line-height: 9px;
 }
 
 .table-full-width {
@@ -1124,8 +1124,8 @@ a.fa {
 }
 
 /*
-.message-icon, 
-.message-info-icon, 
+.message-icon,
+.message-info-icon,
 .message-success-icon,
 .message-warning-icon,
 .message-danger-icon,
@@ -1495,7 +1495,7 @@ a.fa {
     font-size: 10px;
     background-color: #ffffe4;
     border: solid #777 1px;
-    padding: 10px;  
+    padding: 10px;
     overflow: scroll;
     border-collapse: collapse;
 }
@@ -1585,7 +1585,7 @@ a.fa {
 .message-list .delete {
     float: right;
     padding-top: 5px;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 .message-list .order {
@@ -1659,7 +1659,7 @@ a.fa {
 }
 
 #dashboard a:focus {
-    outline: none; 
+    outline: none;
 }
 
 #dashboard .count {
@@ -1893,6 +1893,19 @@ i.tip {
     width: 120px !important;
 }
 
+.form .SumoSelect {
+    width: 100% !important;
+    max-width: 350px;
+}
+
+.form-inline .SumoSelect {
+    width: 100% !important;
+}
+
+.SumoSelect .CaptionCont {
+    width: 100%;
+    padding: 7px 8px !important;
+}
 
 @media(min-width: 1200px) {
     .filter-form .field:nth-child(7n-6) {
