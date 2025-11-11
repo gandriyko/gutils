@@ -1902,11 +1902,6 @@ i.tip {
     width: 100% !important;
 }
 
-.SumoSelect .CaptionCont {
-    width: 100%;
-    padding: 7px 8px !important;
-}
-
 @media(min-width: 1200px) {
     .filter-form .field:nth-child(7n-6) {
         clear: left;
