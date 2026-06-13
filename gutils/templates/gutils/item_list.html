@@ -174,7 +174,7 @@
         {% if f.title %}<h3>{{ f.title }}</h3>{% endif %}
         {% csrf_token %}
         <table class="form">
-            {{ f }}
+            {{ f.as_table() }}
             <tr>
                 <th></th>
                 <td class="form-actions">
@@ -188,4 +188,3 @@
     </div>
     {% endif %}
 {% endblock %}
-

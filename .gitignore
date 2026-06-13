@@ -6,7 +6,7 @@
 *.pyc
 *.orig
 .vscode
-env/
+venv/
 *.sublime-workspace
 *.sublime-project
 *.code-workspace
